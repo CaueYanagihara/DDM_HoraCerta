@@ -1,12 +1,14 @@
 import 'cpf.dart';
 
 class Cliente {
-  late String id;
+  late dynamic id;
   late String nome;
   late String cpf;
   late String telefone;
   late String senha;
   late bool telefoneEhWhatsapp;
+  late bool estaAtivo;
+  late String? observacao;
 
   Cliente({
     required this.id,
@@ -15,6 +17,7 @@ class Cliente {
     required this.telefone,
     required this.senha,
     this.telefoneEhWhatsapp = false,
+    this.estaAtivo = true,
   }) {
     CPF(cpf);
     validarTelefone();

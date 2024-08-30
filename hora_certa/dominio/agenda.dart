@@ -1,8 +1,11 @@
+import 'common/exceptions/validation_exception.dart';
+
 class Agenda {
-  late String id;
+  late dynamic id;
   late String clienteId;
   late String servicoId;
-  late DateTime dataHora;
+  late DateTime dataHoraInicio;
+  late DateTime dataHoraFim;
   late String atendenteId;
   late String status;
 
@@ -10,16 +13,22 @@ class Agenda {
     required this.id,
     required this.clienteId,
     required this.servicoId,
-    required this.dataHora,
+    required this.dataHoraInicio,
+    required this.dataHoraFim,
     required this.atendenteId,
     this.status = 'Pendente',
   }) {
-    validarDataHora();
+    validarDataHora(dataHoraInicio, dataHoraFim);
   }
 
-  void validarDataHora() {
-    if (dataHora.isBefore(DateTime.now())) {
-      throw Exception('A data e hora do agendamento devem ser futuras!');
+  void validarDataHora(DateTime dataHoraInicio, DateTime datadataHoraFim) {
+    if (dataHoraInicio.isBefore(datadataHoraFim)){
+      throw Exception('Data e hora de início não pode ser posterior a de fim!');
+    }
+
+    if (datadataHoraFim.isBefore(DateTime.now())) {
+      throw ValidationException('Data e hora não são futuras!');
+      //QUANDO MONTAR A TELA, GERAR UM ALERT COM ESSE EXCEPTION
     }
   }
 }
