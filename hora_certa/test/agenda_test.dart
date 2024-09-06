@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import '../dominio/agenda.dart';
-import '../dominio/common/exceptions/validation_exception.dart';
+import '../lib/app/dominio/agenda.dart';
+import '../lib/app/dominio/common/exceptions/validation_exception.dart';
 
 void main() {
   group('Entidade Agenda', () {

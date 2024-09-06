@@ -1,6 +1,6 @@
 
 import 'package:flutter_test/flutter_test.dart';
-import '../dominio/cliente.dart';
+import '../lib/app/dominio/cliente.dart';
 
 void main() {
   group('Entidade Cliente', () {

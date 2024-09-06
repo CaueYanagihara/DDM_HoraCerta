@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import '../dominio/cpf.dart';
+import '../lib/app/dominio/cpf.dart';
 
 main(List<String> args) {
   group('Entidade CPF', () {
