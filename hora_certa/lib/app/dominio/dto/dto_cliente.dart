@@ -15,6 +15,6 @@ class DTOCliente {
       required this.telefone,
       required this.senha,
       required this.telefoneEhWhatsapp,
-      this.estaAtivo = true,
+      required this.estaAtivo,
       this.observacao});
 }

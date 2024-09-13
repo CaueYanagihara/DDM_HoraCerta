@@ -1,8 +1,10 @@
 import '../dto/dto_cliente.dart';
 
-abstract class  IDAOCliente {
-  DTOCliente salvar(DTOCliente dto);
-  DTOCliente excluir(DTOCliente dto);
-  DTOCliente alterar(DTOCliente dto);
-  DTOCliente consultar(DTOCliente dto);
+abstract class IDAOCliente {
+  Future<DTOCliente> salvar(DTOCliente dto);
+  Future<DTOCliente> excluir(DTOCliente dto);
+  Future<DTOCliente> alterar(DTOCliente dto);
+  Future<List<DTOCliente>> consultar();
+  Future<bool> alterarStatus(dynamic id);
+  Future<DTOCliente> consultarPorId(dynamic id);
 }

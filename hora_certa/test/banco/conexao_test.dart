@@ -4,15 +4,14 @@ import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 main() async {
-  Database db;
-  setUpAll() {
-    databaseFactory = databaseFactoryFfi;
+  setUpAll(() {
     sqfliteFfiInit();
-    db = await Conexao.abrir();
-  }
+    databaseFactory = databaseFactoryFfi;
+  });
 
-  test('Teste conexao BD', () async {
-    var list = await db.rawQuery('SELECT * FROM cliente');
-    expect(list.length, 3);
+  test('Teste classe conexao', () async {
+    var db = await Conexao.abrir();
+    expect(db.isOpen, true);
+    await db.close();
   });
 }

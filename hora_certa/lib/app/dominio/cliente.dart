@@ -1,38 +1,110 @@
+import 'package:hora_certa/app/dominio/dto/dto_cliente.dart';
+
 import 'cpf.dart';
+import 'package:hora_certa/app/dominio/interface/idao_cliente.dart';
 
 class Cliente {
-  late dynamic id;
-  late String nome;
-  late String cpf;
-  late String telefone;
-  late String senha;
-  late bool telefoneEhWhatsapp;
-  late bool estaAtivo;
-  late String? observacao;
+  dynamic _id;
+  String? _nome;
+  String? _cpf;
+  String? _telefone;
+  String? _senha;
+  bool _telefoneEhWhatsapp = false;
+  bool _estaAtivo = true;
+  String? _observacao;
+  IDAOCliente dao;
 
-  Cliente({
-    required this.id,
-    required this.nome,
-    required this.cpf,
-    required this.telefone,
-    required this.senha,
-    this.telefoneEhWhatsapp = false,
-    this.estaAtivo = true,
-  }) {
-    CPF(cpf);
+  Cliente({required this.dao});
+
+  validar({required DTOCliente dto}) {
+    CPF(_cpf!);
     validarTelefone();
     validarSenha();
   }
 
   void validarTelefone() {
-    if (telefone.isEmpty) {
-      throw Exception('Telefone não pode ser vazio!');
+    if (_telefone == null) {
+      throw Exception('O Telefone não pode ser nula!');
+    }
+    if (_telefone!.isEmpty) {
+      throw Exception('O Telefone não pode ser vazio!');
     }
   }
 
   void validarSenha() {
-    if (senha.length < 6) {
+    if (_senha == null) {
+      throw Exception('A senha não pode ser nula!');
+    }
+    if (_senha!.length < 6) {
       throw Exception('A senha deve ter no mínimo 6 caracteres!');
     }
+  }
+
+  Future<DTOCliente> salvar(DTOCliente dto) async {
+    validar(dto: dto);
+    return await dao.salvar(dto);
+  }
+
+  Future<DTOCliente> alterar(dynamic id) async {
+    this.id = id;
+    return await dao.alterar(_id);
+  }
+
+  Future<bool> excluir(dynamic id) async {
+    this.id = id;
+    await dao.alterarStatus(_id);
+    return true;
+  }
+
+  Future<List<DTOCliente>> consultar() async {
+    return await dao.consultar();
+  }
+
+  String? get nome => _nome;
+  String? get cpf => _cpf;
+  String? get telefone => _telefone;
+  String? get senha => _senha;
+  bool get telefoneEhWhatsapp => _telefoneEhWhatsapp;
+  bool get estaAtivo => _estaAtivo;
+  String? get observacao => _observacao;
+
+  set id(int? id) {
+    if (id == null) throw Exception('Erro: ID não pode ser nulo');
+    if (id < 0) throw Exception('Erro: ID não pode ser negativo');
+    _id = id;
+  }
+
+  set nome(String? nome) {
+    if (nome == null) throw Exception('Erro: Nome não pode ser nulo.');
+    if (nome.isEmpty) throw Exception('Erro: Nome não pode ser vazio.');
+    _nome = nome;
+  }
+
+  set cpf(String? cpf) {
+    if (cpf == null) throw Exception('Erro: CPF não pode ser nulo.');
+    if (cpf.isEmpty) throw Exception('Erro: CPF não pode ser vazio.');
+    _cpf = cpf;
+  }
+
+  set senha(String? senha) {
+    if (senha == null) throw Exception('Erro: Senha não pode ser nula.');
+    if (senha.isEmpty) throw Exception('Erro: Senha não pode ser vazia.');
+    _senha = senha;
+  }
+
+  set telefone(String? telefone) {
+    _telefone = telefone;
+  }
+
+  set telefoneEhWhatsapp(bool? telefoneEhWhatsapp) {
+    if (telefoneEhWhatsapp == null)
+      throw Exception('Status não pode ser nulo.');
+    if (telefoneEhWhatsapp != true || telefoneEhWhatsapp != false)
+      throw Exception('Erro: "Telefone é WhatsApp?" não pode ser nulo.');
+    _telefoneEhWhatsapp = telefoneEhWhatsapp;
+  }
+
+  set observacao(String? observacao) {
+    _observacao = observacao;
   }
 }
