@@ -1,22 +1,37 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hora_certa/app/dominio/dto/dto_cliente.dart';
 import 'package:hora_certa/app/dominio/interface/idao_cliente.dart';
-import '../lib/app/dominio/cliente.dart';
+import 'package:hora_certa/app/dominio/cliente.dart';
 
 void main() {
-  setUpAll(() {
-    var dao = DAOClienteFake();
-    var dto = DTOCliente(
-        nome: 'Caue',
-        cpf: '070.304.390-07',
-        telefone: '123456789',
-        senha: 'senha123',
-        telefoneEhWhatsapp: true,
-        estaAtivo: true);
-  });
+  DAOClienteFake dao = DAOClienteFake();
+  DTOCliente dtoValido = DTOCliente(
+    nome: 'Caue',
+    cpf: '070.304.390-07',
+    telefone: '123456789',
+    senha: 'senha123',
+    telefoneEhWhatsapp: true,
+    estaAtivo: true);
+  
+  DTOCliente dtoSemNome = DTOCliente(
+    nome: '',
+    cpf: '070.304.390-07',
+    telefone: '123456789',
+    senha: 'senha123',
+    telefoneEhWhatsapp: true,
+    estaAtivo: true);
+
+  DTOCliente dtoSemCPF = DTOCliente(
+    nome: 'Caue',
+    cpf: '',
+    telefone: '123456789',
+    senha: 'senha123',
+    telefoneEhWhatsapp: true,
+    estaAtivo: true);
+
   group('Entidade Cliente', () {
     test('Deve criar um cliente com dados válidos', () {
-      dto.cpf = '';
+      dto.cpf = '1'; // Agora dto é acessível aqui
 
       expect(
         () => Cliente(dao),
