@@ -1,0 +1,28 @@
+{
+    // Use o IntelliSense para saber mais sobre os atributos possíveis.
+    // Focalizar para exibir as descrições dos atributos existentes.
+    // Para obter mais informações, acesse: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "hora_certa",
+            "cwd": "hora_certa",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "hora_certa (profile mode)",
+            "cwd": "hora_certa",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile"
+        },
+        {
+            "name": "hora_certa (release mode)",
+            "cwd": "hora_certa",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        }
+    ]
+}

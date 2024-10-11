@@ -10,10 +10,10 @@ class FormularioCliente extends StatelessWidget {
           children: [
             Container(
               decoration: const BoxDecoration(
-                  gradient: LinearGradient(
+                gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: [Colors.blueAccent, Colors.blueGrey],
+                colors: [Colors.blueAccent, Colors.white],
               )),
             ),
             Padding(
@@ -52,24 +52,25 @@ class FormularioCliente extends StatelessWidget {
                       height: 32,
                     ),
                     ElevatedButton(
-                        onPressed: () {}, child: const Text("Cadastrar")),
+                      onPressed: () {}, child: const Text("Cadastrar")),
                     SizedBox(
                       height: 32,
                     ),
                     ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ListaCliente()),
-                          );
-                        },
-                        child: const Text("Listar")),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ListaCliente()),
+                        );
+                      },
+                      child: const Text("Listar")
+                    ),
                     Divider(),
-                    TextButton(
-                        onPressed: () {},
-                        child:
-                            const Text("Ainda não tem uma conta? Cadastre-se"))
+                    // TextButton(
+                    //   onPressed: () {},
+                    //   child: const Text("Ainda não tem uma conta? Cadastre-se")
+                    // )
                   ],
                 ),
               ),

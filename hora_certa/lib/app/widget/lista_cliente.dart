@@ -41,7 +41,7 @@ class ListaCliente extends StatelessWidget {
         title: Text('lista Cliente'),
       ),
       body: FutureBuilder(
-          future: aplicacao.consultar(),
+          future: consultar(),
           builder:
               (BuildContext context, AsyncSnapshot<List<DTOCliente>> consulta) {
             var dados = consulta.data;
@@ -53,7 +53,7 @@ class ListaCliente extends StatelessWidget {
                   itemCount: lista.length,
                   itemBuilder: (context, index) {
                     var cliente = lista[index];
-                    ListTile(
+                    return ListTile(
                       leading: Icon(Icons.person),
                       title: Text(cliente.nome),
                       subtitle: Text(cliente.cpf),

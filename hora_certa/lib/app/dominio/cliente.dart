@@ -13,10 +13,10 @@ class Cliente {
   bool _estaAtivo = false;
   String? _observacao;
 
-  late IDAOCliente dao;
-  late DTOCliente dto;
+  late IDAOCliente? dao;
 
-  Cliente({required this.dto, required this.dao}) {
+  Cliente({required DTOCliente dto, required this.dao}) {
+    validar(dto: dto);
     this._id = dto.id;
     this._nome = dto.nome;
     this._cpf = dto.cpf;
@@ -25,9 +25,6 @@ class Cliente {
     this._telefoneEhWhatsapp = dto.telefoneEhWhatsapp;
     this._estaAtivo = dto.estaAtivo;
     this._observacao = dto.observacao;
-    this.dto = dto;
-
-    validar(dto: dto);
   }
 
   validar({required DTOCliente dto}) {
@@ -56,22 +53,22 @@ class Cliente {
 
   Future<DTOCliente> salvar(DTOCliente dto) async {
     validar(dto: dto);
-    return await dao.salvar(dto);
+    return await dao!.salvar(dto);
   }
 
   Future<DTOCliente> alterar(dynamic id) async {
     this.id = id;
-    return await dao.alterar(_id);
+    return await dao!.alterar(_id);
   }
 
   Future<bool> excluir(dynamic id) async {
     this.id = id;
-    await dao.alterarStatus(_id);
+    await dao!.alterarStatus(_id);
     return true;
   }
 
   Future<List<DTOCliente>> consultar() async {
-    return await dao.consultar();
+    return await dao!.consultar();
   }
 
   String? get nome => _nome;

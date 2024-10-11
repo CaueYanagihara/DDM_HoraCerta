@@ -10,14 +10,19 @@ class APCliente {
 
   APCliente() {
     dao = DAOCliente();
+  }
+
+  void validarCliente() {
     cliente = Cliente(dto: dto, dao: dao);
   }
 
   Future<DTOCliente> salvar(DTOCliente dto) async {
+    validarCliente();
     return await cliente.salvar(dto);
   }
 
   Future<DTOCliente> alterar(dynamic id) async {
+    validarCliente();
     return await cliente.alterar(id);
   }
 
@@ -31,6 +36,7 @@ class APCliente {
   }
 
   Future<DTOCliente> alterarStatus(dynamic id) async {
+    validarCliente();
     return await cliente.alterar(id);
   }
 }
