@@ -10,11 +10,25 @@ class Cliente {
   String? _telefone;
   String? _senha;
   bool _telefoneEhWhatsapp = false;
-  bool _estaAtivo = true;
+  bool _estaAtivo = false;
   String? _observacao;
-  IDAOCliente dao;
 
-  Cliente({required this.dao});
+  late IDAOCliente dao;
+  late DTOCliente dto;
+
+  Cliente({required this.dto, required this.dao}) {
+    this._id = dto.id;
+    this._nome = dto.nome;
+    this._cpf = dto.cpf;
+    this._telefone = dto.telefone;
+    this._senha = dto.senha;
+    this._telefoneEhWhatsapp = dto.telefoneEhWhatsapp;
+    this._estaAtivo = dto.estaAtivo;
+    this._observacao = dto.observacao;
+    this.dto = dto;
+
+    validar(dto: dto);
+  }
 
   validar({required DTOCliente dto}) {
     CPF(_cpf!);

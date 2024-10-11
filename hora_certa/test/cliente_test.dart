@@ -6,79 +6,84 @@ import 'package:hora_certa/app/dominio/cliente.dart';
 void main() {
   DAOClienteFake dao = DAOClienteFake();
   DTOCliente dtoValido = DTOCliente(
-    nome: 'Caue',
-    cpf: '070.304.390-07',
-    telefone: '123456789',
-    senha: 'senha123',
-    telefoneEhWhatsapp: true,
-    estaAtivo: true);
-  
+      id: 1,
+      nome: 'Caue',
+      cpf: '070.304.390-07',
+      telefone: '123456789',
+      senha: 'senha123',
+      telefoneEhWhatsapp: true,
+      estaAtivo: true);
+
   DTOCliente dtoSemNome = DTOCliente(
-    nome: '',
-    cpf: '070.304.390-07',
-    telefone: '123456789',
-    senha: 'senha123',
-    telefoneEhWhatsapp: true,
-    estaAtivo: true);
+      id: 1,
+      nome: '',
+      cpf: '070.304.390-07',
+      telefone: '123456789',
+      senha: 'senha123',
+      telefoneEhWhatsapp: true,
+      estaAtivo: true);
 
   DTOCliente dtoSemCPF = DTOCliente(
-    nome: 'Caue',
-    cpf: '',
-    telefone: '123456789',
-    senha: 'senha123',
-    telefoneEhWhatsapp: true,
-    estaAtivo: true);
+      id: 1,
+      nome: 'Caue',
+      cpf: '',
+      telefone: '123456789',
+      senha: 'senha123',
+      telefoneEhWhatsapp: true,
+      estaAtivo: true);
+
+  DTOCliente dtoSemTelefone = DTOCliente(
+      id: 1,
+      nome: 'Caue',
+      cpf: '070.304.390-07',
+      telefone: '',
+      senha: 'senha123',
+      telefoneEhWhatsapp: true,
+      estaAtivo: true);
+
+  DTOCliente dtoSenhaPequena = DTOCliente(
+      id: 1,
+      nome: 'Caue',
+      cpf: '070.304.390-07',
+      telefone: '123456789',
+      senha: 'test',
+      telefoneEhWhatsapp: true,
+      estaAtivo: true);
+
+  DTOCliente dtoWhatsappFalse = DTOCliente(
+      id: 1,
+      nome: 'Caue',
+      cpf: '070.304.390-07',
+      telefone: '123456789',
+      senha: 'senha123',
+      telefoneEhWhatsapp: false,
+      estaAtivo: true);
+      
 
   group('Entidade Cliente', () {
     test('Deve criar um cliente com dados válidos', () {
-      dto.cpf = '1'; // Agora dto é acessível aqui
-
       expect(
-        () => Cliente(dao),
+        () => Cliente(dto: dtoValido, dao: dao),
         returnsNormally,
       );
     });
 
     test('Deve lançar uma exceção se o telefone for vazio', () {
       expect(
-        () => Cliente(
-            id: '1',
-            nome: 'Cliente Teste',
-            cpf: '070.304.390-07',
-            telefone: '',
-            senha: 'senha123',
-            telefoneEhWhatsapp: true,
-            estaAtivo: true,
-            observacao: ''),
+        () => Cliente(dto: dtoSemTelefone, dao: dao),
         throwsException,
       );
     });
 
     test('Deve lançar uma exceção se a senha for menor que 6 caracteres', () {
       expect(
-        () => Cliente(
-            id: '1',
-            nome: 'Cliente Teste',
-            cpf: '070.304.390-07',
-            telefone: '123456789',
-            senha: '123',
-            telefoneEhWhatsapp: true,
-            estaAtivo: true,
-            observacao: ''),
+        () => Cliente(dto: dtoSenhaPequena, dao: dao),
         throwsException,
       );
     });
 
-    test('Deve criar um cliente com telefoneEhWhatsapp padrão como false', () {
-      final cliente = Cliente(
-          id: '1',
-          nome: 'Cliente Teste',
-          cpf: '070.304.390-07',
-          telefone: '123456789',
-          senha: 'senha123',
-          telefoneEhWhatsapp: false,
-          estaAtivo: true,
-          observacao: 'Divida de 100 reais');
+    test('Deve criar um cliente com telefoneEhWhatsapp false', () {
+      final cliente = Cliente(dto: dtoWhatsappFalse, dao: dao);
       expect(cliente.telefoneEhWhatsapp, isFalse);
     });
   });
@@ -117,7 +122,6 @@ class DAOClienteFake implements IDAOCliente {
 
   @override
   Future<DTOCliente> salvar(DTOCliente dto) {
-    dto.id = 1;
-    return dto;
+    throw UnimplementedError();
   }
 }
