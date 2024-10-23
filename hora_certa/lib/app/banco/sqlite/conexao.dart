@@ -21,4 +21,11 @@ class Conexao {
     }
     return _db;
   }
+
+  static Future<void> fechar() async {
+    if (conexaoCriada) {
+      await _db.close();
+      conexaoCriada = false;
+    }
+  }
 }

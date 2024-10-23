@@ -1,7 +1,7 @@
 import 'package:hora_certa/app/dominio/dto/dto_atendente.dart';
 import 'package:hora_certa/app/dominio/interface/idao_atendente.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:hora_certa/app/banco/conexao.dart';
+import 'package:hora_certa/app/banco/sqlite/conexao.dart';
 
 class DAOAtendente implements IDAOAtendente {
   late Database _db;

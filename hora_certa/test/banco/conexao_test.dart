@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hora_certa/app/banco/conexao.dart';
+import 'package:hora_certa/app/banco/sqlite/conexao.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 main() async {
