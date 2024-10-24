@@ -14,9 +14,9 @@ const criarTabelas = {
     CREATE TABLE atendente(
       id PRIMARY KEY INTEGER NOT NULL
       ,nome VARCHAR(200) NOT NULL
-      ,descricao VARCHAR(200)
       ,cpf CHAR(14) NOT NULL UNIQUE
       ,estaAtivo CHAR(1) NOT NULL
+      ,observacao VARCHAR(200)
       );
   '''
 };

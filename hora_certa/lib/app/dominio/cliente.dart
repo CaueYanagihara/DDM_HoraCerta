@@ -13,10 +13,10 @@ class Cliente {
   bool _estaAtivo = false;
   String? _observacao;
 
-  late IDAOCliente? dao;
+  late IDAOCliente dao;
 
   Cliente({required DTOCliente dto, required this.dao}) {
-    validar(dto: dto);
+    validarDTO(dto: dto);
     this._id = dto.id;
     this._nome = dto.nome;
     this._cpf = dto.cpf;
@@ -27,48 +27,66 @@ class Cliente {
     this._observacao = dto.observacao;
   }
 
-  validar({required DTOCliente dto}) {
-    CPF(_cpf!);
-    validarTelefone();
-    validarSenha();
+  validarDTO({required DTOCliente dto}) {
+    validarNome(dto);
+    CPF(dto.cpf);
+    validarTelefone(dto);
+    validarSenha(dto);
   }
 
-  void validarTelefone() {
-    if (_telefone == null) {
+  validarDAO(IDAOCliente dao) {
+    if (dao == null) {
+      throw Exception('Dao não pode ser nulo!');
+    }
+  }
+
+  void validarNome(DTOCliente dto) {
+    
+    if (dto.nome.isEmpty) {
+      throw Exception('Nome não pode ser vazio');
+    }
+  }
+
+  void validarTelefone(DTOCliente dto) {
+    if (dto.telefone == null) {
       throw Exception('O Telefone não pode ser nula!');
     }
-    if (_telefone!.isEmpty) {
+    if (dto.telefone.isEmpty) {
       throw Exception('O Telefone não pode ser vazio!');
     }
   }
 
-  void validarSenha() {
-    if (_senha == null) {
+  void validarSenha(DTOCliente dto) {
+    if (dto.senha == null) {
       throw Exception('A senha não pode ser nula!');
     }
-    if (_senha!.length < 6) {
+    if (dto.senha.length < 6) {
       throw Exception('A senha deve ter no mínimo 6 caracteres!');
     }
   }
 
   Future<DTOCliente> salvar(DTOCliente dto) async {
-    validar(dto: dto);
-    return await dao!.salvar(dto);
+    validarDTO(dto: dto);
+    validarDAO(dao);
+    return await dao.salvar(dto);
   }
 
   Future<DTOCliente> alterar(dynamic id) async {
+    validarDAO(dao);
     this.id = id;
-    return await dao!.alterar(_id);
+    return await dao.alterar(_id);
   }
 
   Future<bool> excluir(dynamic id) async {
+    validarDAO(dao);
     this.id = id;
-    await dao!.alterarStatus(_id);
+    await dao.alterarStatus(_id);
     return true;
   }
 
   Future<List<DTOCliente>> consultar() async {
-    return await dao!.consultar();
+    validarDAO(dao);
+    return await dao.consultar();
   }
 
   String? get nome => _nome;

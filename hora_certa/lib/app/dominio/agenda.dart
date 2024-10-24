@@ -21,12 +21,12 @@ class Agenda {
     validarDataHora(dataHoraInicio, dataHoraFim);
   }
 
-  void validarDataHora(DateTime dataHoraInicio, DateTime datadataHoraFim) {
-    if (dataHoraInicio.isBefore(datadataHoraFim)){
-      throw Exception('Data e hora de início não pode ser posterior a de fim!');
+  void validarDataHora(DateTime dataHoraInicio, DateTime dataHoraFim) {
+    if (dataHoraFim.isBefore(dataHoraInicio)){
+      throw Exception('Data e hora de fim não pode ser anterior a de início!');
     }
 
-    if (datadataHoraFim.isBefore(DateTime.now())) {
+    if (DateTime.now().isBefore(dataHoraFim)) {
       throw ValidationException('Data e hora não são futuras!');
       //QUANDO MONTAR A TELA, GERAR UM ALERT COM ESSE EXCEPTION
     }

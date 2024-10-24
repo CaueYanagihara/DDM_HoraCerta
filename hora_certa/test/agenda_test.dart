@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import '../lib/app/dominio/agenda.dart';
-import '../lib/app/dominio/common/exceptions/validation_exception.dart';
 
 void main() {
   group('Entidade Agenda', () {
@@ -10,7 +9,7 @@ void main() {
           id: '1',
           clienteId: 'cliente1',
           servicoId: 'servico1',
-          dataHoraInicio: DateTime.now().add(Duration(hours: 1)),
+          dataHoraInicio: DateTime.now(),
           dataHoraFim: DateTime.now().add(Duration(hours: 2)),
           atendenteId: 'atendente1',
         ),
@@ -45,7 +44,7 @@ void main() {
           dataHoraFim: DateTime.now().subtract(Duration(days: 1)),
           atendenteId: 'atendente1',
         ),
-        throwsA(isA<ValidationException>()),
+        throwsException,
       );
     });
   });

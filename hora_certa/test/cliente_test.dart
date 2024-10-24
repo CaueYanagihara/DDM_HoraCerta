@@ -4,61 +4,67 @@ import 'package:hora_certa/app/dominio/interface/idao_cliente.dart';
 import 'package:hora_certa/app/dominio/cliente.dart';
 
 void main() {
-  DAOClienteFake dao = DAOClienteFake();
-  DTOCliente dtoValido = DTOCliente(
+  var dao = DAOClienteFake();
+
+  var dtoValido = DTOCliente(
       id: 1,
       nome: 'Caue',
       cpf: '070.304.390-07',
       telefone: '123456789',
       senha: 'senha123',
       telefoneEhWhatsapp: true,
-      estaAtivo: true);
+      estaAtivo: true,
+      observacao: '');
 
-  DTOCliente dtoSemNome = DTOCliente(
+  var dtoSemNome = DTOCliente(
       id: 1,
       nome: '',
       cpf: '070.304.390-07',
       telefone: '123456789',
       senha: 'senha123',
       telefoneEhWhatsapp: true,
-      estaAtivo: true);
+      estaAtivo: true,
+      observacao: '');
 
-  DTOCliente dtoSemCPF = DTOCliente(
+  var dtoSemCPF = DTOCliente(
       id: 1,
       nome: 'Caue',
       cpf: '',
       telefone: '123456789',
       senha: 'senha123',
       telefoneEhWhatsapp: true,
-      estaAtivo: true);
+      estaAtivo: true,
+      observacao: '');
 
-  DTOCliente dtoSemTelefone = DTOCliente(
+  var dtoSemTelefone = DTOCliente(
       id: 1,
       nome: 'Caue',
       cpf: '070.304.390-07',
       telefone: '',
       senha: 'senha123',
       telefoneEhWhatsapp: true,
-      estaAtivo: true);
+      estaAtivo: true,
+      observacao: '');
 
-  DTOCliente dtoSenhaPequena = DTOCliente(
+  var dtoSenhaPequena = DTOCliente(
       id: 1,
       nome: 'Caue',
       cpf: '070.304.390-07',
       telefone: '123456789',
       senha: 'test',
       telefoneEhWhatsapp: true,
-      estaAtivo: true);
+      estaAtivo: true,
+      observacao: '');
 
-  DTOCliente dtoWhatsappFalse = DTOCliente(
+  var dtoWhatsappFalse = DTOCliente(
       id: 1,
       nome: 'Caue',
       cpf: '070.304.390-07',
       telefone: '123456789',
       senha: 'senha123',
       telefoneEhWhatsapp: false,
-      estaAtivo: true);
-      
+      estaAtivo: true,
+      observacao: '');
 
   group('Entidade Cliente', () {
     test('Deve criar um cliente com dados válidos', () {
@@ -91,37 +97,62 @@ void main() {
 
 class DAOClienteFake implements IDAOCliente {
   @override
-  Future<DTOCliente> alterar(DTOCliente dto) {
+  Future<DTOCliente> salvar(DTOCliente dto) async {
+    return dto;
+  }
+
+  @override
+  Future<DTOCliente> alterar(DTOCliente dto) async {
     // TODO: implement alterar
-    throw UnimplementedError();
+    return dto;
   }
 
   @override
-  Future<bool> alterarStatus(id) {
-    // TODO: implement alterarStatus
-    throw UnimplementedError();
+  Future<bool> alterarStatus(id) async {
+    // TODO: implement alterar
+    return true;
   }
 
   @override
-  Future<List<DTOCliente>> consultar() {
-    // TODO: implement consultar
-    throw UnimplementedError();
+  Future<List<DTOCliente>> consultar() async {
+    return [
+      DTOCliente(
+          id: 1,
+          nome: 'Caue',
+          cpf: '070.304.390-07',
+          telefone: '123456789',
+          senha: 'senha123',
+          telefoneEhWhatsapp: true,
+          estaAtivo: true,
+          observacao: ''),
+    ];
   }
 
   @override
-  Future<DTOCliente> consultarPorId(id) {
+  Future<DTOCliente> consultarPorId(id) async {
     // TODO: implement consultarPorId
-    throw UnimplementedError();
+    return DTOCliente(
+        id: 1,
+        nome: 'Caue',
+        cpf: '070.304.390-07',
+        telefone: '123456789',
+        senha: 'senha123',
+        telefoneEhWhatsapp: true,
+        estaAtivo: true,
+        observacao: '');
   }
 
   @override
-  Future<DTOCliente> excluir(DTOCliente dto) {
+  Future<DTOCliente> excluir(DTOCliente dto) async {
     // TODO: implement excluir
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<DTOCliente> salvar(DTOCliente dto) {
-    throw UnimplementedError();
+    return DTOCliente(
+        id: 1,
+        nome: 'Caue',
+        cpf: '070.304.390-07',
+        telefone: '123456789',
+        senha: 'senha123',
+        telefoneEhWhatsapp: true,
+        estaAtivo: true,
+        observacao: '');
   }
 }
