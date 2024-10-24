@@ -18,7 +18,17 @@ class APAtendente {
 
   Future<DTOAtendente> salvar(DTOAtendente dto) async {
     validarAtendente();
-    return await atendente.salvar(dto);
+    await atendente.salvar(dto);
+
+    var atendentes = await atendente.consultar(); 
+    var atendenteSalvo = atendentes.firstWhere(
+      (a) => a.cpf == atendente.cpf, 
+      orElse: () {
+        throw Exception('Erro: Atendente não encontrado no banco de dados.');
+      }
+    );
+    
+    return atendenteSalvo;
   }
 
   Future<DTOAtendente> alterar(dynamic id) async {

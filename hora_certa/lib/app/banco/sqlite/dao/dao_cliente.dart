@@ -34,8 +34,8 @@ class DAOCliente implements IDAOCliente {
           dto.cpf,
           dto.telefone,
           dto.senha,
-          dto.telefoneEhWhatsapp,
-          dto.estaAtivo,
+          dto.telefoneEhWhatsapp ? 1 : 0,
+          dto.estaAtivo ? 1 : 0,
           dto.observacao
         ]);
     dto.id = id;
@@ -51,8 +51,8 @@ class DAOCliente implements IDAOCliente {
       dto.cpf,
       dto.telefone,
       dto.senha,
-      dto.telefoneEhWhatsapp,
-      dto.estaAtivo,
+      dto.telefoneEhWhatsapp ? 1 : 0,
+      dto.estaAtivo ? 1 : 0,
       dto.observacao,
       dto.id
       ]);
@@ -89,25 +89,34 @@ class DAOCliente implements IDAOCliente {
   @override
   Future<DTOCliente> consultarPorId(dynamic id) async {
     _db = await Conexao.abrir();
-    var resultado = (await _db.rawQuery(sqlConsultarPorId, [id])).first;
+  
+    var resultado = await _db.rawQuery(sqlConsultarPorId, [id]);
+
+    if (resultado.isEmpty) {
+      throw Exception('Cliente não encontrado');
+    }
+
+    var linha = resultado.first;
     DTOCliente cliente = DTOCliente(
-      id: resultado['id'],
-      nome: resultado['nome'].toString(),
-      cpf: resultado['cpf'].toString(),
-      telefone: resultado['telefone'].toString(),
-      senha: resultado['senha'].toString(),
-      telefoneEhWhatsapp: resultado['telefoneEhWhatsapp'] == 1,
-      estaAtivo: resultado['estaAtivo'] == 1,
-        observacao: resultado['observacao'].toString()
+      id: linha['id'],
+      nome: linha['nome'].toString(),
+      cpf: linha['cpf'].toString(),
+      telefone: linha['telefone'].toString(),
+      senha: linha['senha'].toString(),
+      telefoneEhWhatsapp: linha['telefoneEhWhatsapp'] == 1,
+      estaAtivo: linha['estaAtivo'] == 1,
+      observacao: linha['observacao'].toString(),
     );
+
     return cliente;
-  }
+  }   
+  
   
   @override
   Future<DTOCliente> excluir(DTOCliente dto) async {
     _db = await Conexao.abrir();
     await _db.rawDelete(
-        'DELETE * FROM cliente WHERE id = (?),',
+        'DELETE FROM cliente WHERE id = ?',
         [dto.id]);
     return dto; //VERIFICAR SE ISSO NAO VAI DAR ERRO
   }

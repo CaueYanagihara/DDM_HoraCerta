@@ -6,11 +6,11 @@ import 'package:hora_certa/app/banco/sqlite/conexao.dart';
 class DAOAtendente implements IDAOAtendente {
   late Database _db;
   final sqlInserir = '''
-    INSERT INTO atendente (nome, cpf, telefone, senha, telefoneEhWhatsapp, estaAtivo)
+    INSERT INTO atendente (nome, cpf, senha, estaAtivo)
     VALUES (?,?,?,?,?,?)
   ''';
   final sqlAlterar = '''
-    UPDATE atendente SET nome=?, cpf=?, telefone=?, senha=?, telefoneEhWhatsapp=?, estaAtivo=?
+    UPDATE atendente SET nome=?, cpf=?, senha=?, estaAtivo=?
     WHERE id = ?
   ''';
   final sqlAlterarStatus = '''
@@ -33,7 +33,7 @@ class DAOAtendente implements IDAOAtendente {
           dto.nome,
           dto.cpf,
           dto.senha,
-          dto.estaAtivo,
+          dto.estaAtivo ? 1 : 0,
           dto.observacao
         ]);
     dto.id = id;
@@ -48,7 +48,7 @@ class DAOAtendente implements IDAOAtendente {
       dto.nome,
       dto.cpf,
       dto.senha,
-      dto.estaAtivo,
+      dto.estaAtivo ? 1 : 0,
       dto.observacao,
       dto.id
       ]);
@@ -83,15 +83,24 @@ class DAOAtendente implements IDAOAtendente {
   @override
   Future<DTOAtendente> consultarPorId(dynamic id) async {
     _db = await Conexao.abrir();
-    var resultado = (await _db.rawQuery(sqlConsultarPorId, [id])).first;
+  
+    var resultado = await _db.rawQuery(sqlConsultarPorId, [id]);
+
+    if (resultado.isEmpty) {
+      throw Exception('Atendente não encontrado');
+    }
+
+    var linha = resultado.first;
+
     DTOAtendente atendente = DTOAtendente(
-      id: resultado['id'],
-      nome: resultado['nome'].toString(),
-      cpf: resultado['cpf'].toString(),
-      senha: resultado['senha'].toString(),
-      estaAtivo: resultado['estaAtivo'] == 1,
-        observacao: resultado['observacao'].toString()
+      id: linha['id'],
+      nome: linha['nome'].toString(),
+      cpf: linha['cpf'].toString(),
+      senha: linha['senha'].toString(),
+      estaAtivo: linha['estaAtivo'] == 1,
+        observacao: linha['observacao'].toString()
     );
+
     return atendente;
   }
   
@@ -99,8 +108,8 @@ class DAOAtendente implements IDAOAtendente {
   Future<DTOAtendente> excluir(DTOAtendente dto) async {
     _db = await Conexao.abrir();
     await _db.rawDelete(
-        'DELETE * FROM atendente WHERE id = (?),',
+        'DELETE * FROM atendente WHERE id = ?',
         [dto.id]);
-    return dto; //VERIFICAR SE ISSO NAO VAI DAR ERRO
+    return dto;
   }
 }

@@ -1,12 +1,12 @@
 class DTOCliente {
-  late dynamic id;
+  dynamic id;
   late String nome;
   late String cpf;
   late String telefone;
   late String senha;
   late bool telefoneEhWhatsapp;
   late bool estaAtivo;
-  late String? observacao;
+  String? observacao;
 
   DTOCliente(
       {this.id,

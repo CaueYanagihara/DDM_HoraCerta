@@ -11,10 +11,10 @@ class Atendente {
   bool _estaAtivo = false;
   String? _observacao;
 
-  late IDAOAtendente? dao;
+  late IDAOAtendente dao;
 
   Atendente({required DTOAtendente dto, required this.dao}) {
-    validar(dto: dto);
+    validarDTO(dto: dto);
     this._id = dto.id;
     this._nome = dto.nome;
     this._cpf = dto.cpf;
@@ -23,9 +23,22 @@ class Atendente {
     this._observacao = dto.observacao;
   }
 
-  validar({required DTOAtendente dto}) {
+  validarDTO({required DTOAtendente dto}) {
     CPF(_cpf!);
     validarSenha();
+  }
+
+  validarDAO(IDAOAtendente dao) {
+    if (dao == null) {
+      throw Exception('Dao não pode ser nulo!');
+    }
+  }
+
+  void validarNome(DTOAtendente dto) {
+    
+    if (dto.nome.isEmpty) {
+      throw Exception('Nome não pode ser vazio');
+    }
   }
 
   void validarSenha() {
@@ -38,23 +51,23 @@ class Atendente {
   }
 
   Future<DTOAtendente> salvar(DTOAtendente dto) async {
-    validar(dto: dto);
-    return await dao!.salvar(dto);
+    validarDTO(dto: dto);
+    return await dao.salvar(dto);
   }
 
   Future<DTOAtendente> alterar(dynamic id) async {
     this.id = id;
-    return await dao!.alterar(_id);
+    return await dao.alterar(_id);
   }
 
   Future<bool> excluir(dynamic id) async {
     this.id = id;
-    await dao!.alterarStatus(_id);
+    await dao.alterarStatus(_id);
     return true;
   }
 
   Future<List<DTOAtendente>> consultar() async {
-    return await dao!.consultar();
+    return await dao.consultar();
   }
 
   String? get nome => _nome;

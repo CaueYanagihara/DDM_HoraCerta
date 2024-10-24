@@ -18,7 +18,17 @@ class APCliente {
 
   Future<DTOCliente> salvar(DTOCliente dto) async {
     validarCliente();
-    return await cliente.salvar(dto);
+    await cliente.salvar(dto);
+
+    var clientes = await cliente.consultar(); 
+    var clienteSalvo = clientes.firstWhere(
+      (c) => c.cpf == cliente.cpf, 
+      orElse: () {
+        throw Exception('Erro: Cliente não encontrado no banco de dados.');
+      }
+    );
+    
+  return clienteSalvo;
   }
 
   Future<DTOCliente> alterar(dynamic id) async {

@@ -1,7 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:hora_certa/app/widget/lista_cliente.dart';
+import 'package:hora_certa/app/dominio/dto/dto_cliente.dart';
+import 'package:hora_certa/app/aplicacao/ap_cliente.dart';
 
-class FormularioCliente extends StatelessWidget {
+class FormularioCliente extends StatefulWidget {
+  @override
+  _FormularioClienteState createState() => _FormularioClienteState();
+}
+
+class _FormularioClienteState extends State<FormularioCliente> {
+  final _formKey = GlobalKey<FormState>();
+
+  final TextEditingController _nomeController = TextEditingController();
+  final TextEditingController _cpfController = TextEditingController();
+  final TextEditingController _telefoneController = TextEditingController();
+  final TextEditingController _senhaController = TextEditingController();
+
+  void _cadastrarCliente() async {
+    if (_formKey.currentState!.validate()) {
+      var aplicacao = APCliente();
+      
+      var novoCliente = DTOCliente(
+        nome: _nomeController.text,
+        cpf: _cpfController.text,
+        telefone: _telefoneController.text,
+        senha: _senhaController.text,
+        telefoneEhWhatsapp: false,
+        estaAtivo: true, 
+      );
+      
+      var clienteSalvo = await aplicacao.salvar(novoCliente);
+
+    if (clienteSalvo != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Cliente cadastrado com sucesso!'))
+      );
+      _limparFormulario();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Erro ao cadastrar o cliente!'))
+      );
+    }
+    }
+  }
+
+  void _limparFormulario() {
+    _nomeController.clear();
+    _cpfController.clear();
+    _telefoneController.clear();
+    _senhaController.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -10,7 +59,7 @@ class FormularioCliente extends StatelessWidget {
           children: [
             Container(
               decoration: const BoxDecoration(
-                gradient: LinearGradient(
+                  gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [Colors.blueAccent, Colors.white],
@@ -19,6 +68,7 @@ class FormularioCliente extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Form(
+                key: _formKey, 
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -36,41 +86,69 @@ class FormularioCliente extends StatelessWidget {
                       height: 32,
                     ),
                     TextFormField(
+                      controller: _nomeController,
                       decoration: InputDecoration(label: Text("Nome")),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor, insira o nome';
+                        }
+                        return null;
+                      },
                     ),
                     TextFormField(
-                      decoration: InputDecoration(label: Text("Cpf")),
+                      controller: _cpfController,
+                      decoration: InputDecoration(label: Text("CPF")),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor, insira o CPF';
+                        }
+                        // Adicione validação de CPF aqui se necessário
+                        return null;
+                      },
                     ),
                     TextFormField(
+                      controller: _telefoneController,
                       decoration: InputDecoration(label: Text("Telefone")),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor, insira o telefone';
+                        }
+                        return null;
+                      },
                     ),
                     TextFormField(
+                      controller: _senhaController,
                       decoration: InputDecoration(label: Text("Senha")),
                       obscureText: true,
-                    ),
-                    SizedBox(
-                      height: 32,
-                    ),
-                    ElevatedButton(
-                      onPressed: () {}, child: const Text("Cadastrar")),
-                    SizedBox(
-                      height: 32,
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ListaCliente()),
-                        );
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor, insira a senha';
+                        }
+                        if (value.length < 6) {
+                          return 'A senha deve ter no mínimo 6 caracteres';
+                        }
+                        return null;
                       },
-                      child: const Text("Listar")
                     ),
+                    SizedBox(
+                      height: 32,
+                    ),
+                    ElevatedButton(
+                        onPressed: _cadastrarCliente,
+                        child: const Text("Cadastrar")),
+                    SizedBox(
+                      height: 32,
+                    ),
+                    ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ListaCliente()),
+                          );
+                        },
+                        child: const Text("Listar")),
                     Divider(),
-                    // TextButton(
-                    //   onPressed: () {},
-                    //   child: const Text("Ainda não tem uma conta? Cadastre-se")
-                    // )
                   ],
                 ),
               ),
