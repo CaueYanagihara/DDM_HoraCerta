@@ -13,10 +13,17 @@ class Cliente {
   bool _estaAtivo = false;
   String? _observacao;
 
+  late DTOCliente dto;
   late IDAOCliente dao;
 
-  Cliente({required DTOCliente dto, required this.dao}) {
-    validarDTO(dto: dto);
+  Cliente({required this.dao});
+
+  validarDTO({required DTOCliente dto}) {
+    validarNome(dto);
+    CPF(dto.cpf);
+    validarTelefone(dto);
+    validarSenha(dto);
+
     this._id = dto.id;
     this._nome = dto.nome;
     this._cpf = dto.cpf;
@@ -25,13 +32,6 @@ class Cliente {
     this._telefoneEhWhatsapp = dto.telefoneEhWhatsapp;
     this._estaAtivo = dto.estaAtivo;
     this._observacao = dto.observacao;
-  }
-
-  validarDTO({required DTOCliente dto}) {
-    validarNome(dto);
-    CPF(dto.cpf);
-    validarTelefone(dto);
-    validarSenha(dto);
   }
 
   validarDAO(IDAOCliente dao) {

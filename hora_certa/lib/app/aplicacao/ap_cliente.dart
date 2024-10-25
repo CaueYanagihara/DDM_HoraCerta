@@ -10,25 +10,24 @@ class APCliente {
 
   APCliente() {
     dao = DAOCliente();
+    cliente = Cliente(dao: dao);
   }
 
   void validarCliente() {
-    cliente = Cliente(dto: dto, dao: dao);
+    cliente = Cliente(dao: dao);
   }
 
   Future<DTOCliente> salvar(DTOCliente dto) async {
     validarCliente();
     await cliente.salvar(dto);
 
-    var clientes = await cliente.consultar(); 
-    var clienteSalvo = clientes.firstWhere(
-      (c) => c.cpf == cliente.cpf, 
-      orElse: () {
-        throw Exception('Erro: Cliente não encontrado no banco de dados.');
-      }
-    );
-    
-  return clienteSalvo;
+    var clientes = await cliente.consultar();
+    var clienteSalvo =
+        clientes.firstWhere((c) => c.cpf == cliente.cpf, orElse: () {
+      throw Exception('Erro: Cliente não encontrado no banco de dados.');
+    });
+
+    return clienteSalvo;
   }
 
   Future<DTOCliente> alterar(dynamic id) async {

@@ -24,8 +24,9 @@ class Atendente {
   }
 
   validarDTO({required DTOAtendente dto}) {
-    CPF(_cpf!);
-    validarSenha();
+    validarNome(dto);
+    CPF(dto.cpf);
+    validarSenha(dto);
   }
 
   validarDAO(IDAOAtendente dao) {
@@ -41,32 +42,34 @@ class Atendente {
     }
   }
 
-  void validarSenha() {
-    if (_senha == null) {
+  void validarSenha(DTOAtendente dto) {
+    if (dto.senha == null) {
       throw Exception('A senha não pode ser nula!');
     }
-    if (_senha!.length < 6) {
+    if (dto.senha.length < 6) {
       throw Exception('A senha deve ter no mínimo 6 caracteres!');
     }
   }
 
   Future<DTOAtendente> salvar(DTOAtendente dto) async {
     validarDTO(dto: dto);
+    validarDAO(dao);
     return await dao.salvar(dto);
   }
 
   Future<DTOAtendente> alterar(dynamic id) async {
-    this.id = id;
+    validarDAO(dao);
     return await dao.alterar(_id);
   }
 
   Future<bool> excluir(dynamic id) async {
-    this.id = id;
+    validarDAO(dao);
     await dao.alterarStatus(_id);
     return true;
   }
 
   Future<List<DTOAtendente>> consultar() async {
+    validarDAO(dao);
     return await dao.consultar();
   }
 

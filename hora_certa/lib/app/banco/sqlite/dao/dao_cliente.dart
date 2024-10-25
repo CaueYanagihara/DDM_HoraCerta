@@ -6,11 +6,11 @@ import 'package:hora_certa/app/banco/sqlite/conexao.dart';
 class DAOCliente implements IDAOCliente {
   late Database _db;
   final sqlInserir = '''
-    INSERT INTO cliente (nome, cpf, telefone, senha, telefoneEhWhatsapp, estaAtivo)
-    VALUES (?,?,?,?,?,?)
+    INSERT INTO cliente (nome, cpf, telefone, senha, telefoneEhWhatsapp, estaAtivo, observacao)
+    VALUES (?,?,?,?,?,?,?)
   ''';
   final sqlAlterar = '''
-    UPDATE cliente SET nome=?, cpf=?, telefone=?, senha=?, telefoneEhWhatsapp=?, estaAtivo=?
+    UPDATE cliente SET nome=?, cpf=?, telefone=?, senha=?, telefoneEhWhatsapp=?, estaAtivo=?, observacao=?
     WHERE id = ?
   ''';
   final sqlAlterarStatus = '''

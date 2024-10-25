@@ -69,27 +69,27 @@ void main() {
   group('Entidade Cliente', () {
     test('Deve criar um cliente com dados válidos', () {
       expect(
-        () => Cliente(dto: dtoValido, dao: dao),
+        () => Cliente(dao: dao),
         returnsNormally,
       );
     });
 
     test('Deve lançar uma exceção se o telefone for vazio', () {
       expect(
-        () => Cliente(dto: dtoSemTelefone, dao: dao),
+        () => Cliente(dao: dao),
         throwsException,
       );
     });
 
     test('Deve lançar uma exceção se a senha for menor que 6 caracteres', () {
       expect(
-        () => Cliente(dto: dtoSenhaPequena, dao: dao),
+        () => Cliente(dao: dao),
         throwsException,
       );
     });
 
     test('Deve criar um cliente com telefoneEhWhatsapp false', () {
-      final cliente = Cliente(dto: dtoWhatsappFalse, dao: dao);
+      final cliente = Cliente(dao: dao);
       expect(cliente.telefoneEhWhatsapp, isFalse);
     });
   });

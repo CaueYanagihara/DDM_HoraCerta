@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hora_certa/app/rotas.dart';
+import 'package:hora_certa/app/widget/formulario_atendente.dart';
 import 'package:hora_certa/app/widget/formulario_cliente.dart';
+import 'package:hora_certa/app/widget/lista_atendente.dart';
 import 'package:hora_certa/app/widget/lista_cliente.dart';
 
 class MeuApp extends StatelessWidget {
@@ -14,6 +16,8 @@ class MeuApp extends StatelessWidget {
       routes: {
         Rotas.home: (context) => FormularioCliente(),
         Rotas.clientes: (context) => ListaCliente(),
+        Rotas.cadAtendente: (context) => FormularioAtendente(),
+        Rotas.atendentes: (context) => ListaAtendente(),
       },
     );
   }

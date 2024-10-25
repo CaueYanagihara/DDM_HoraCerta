@@ -1,45 +1,41 @@
 import 'package:flutter/material.dart';
-import 'package:hora_certa/app/widget/formulario_atendente.dart';
-import 'package:hora_certa/app/widget/lista_cliente.dart';
-import 'package:hora_certa/app/dominio/dto/dto_cliente.dart';
-import 'package:hora_certa/app/aplicacao/ap_cliente.dart';
+import 'package:hora_certa/app/widget/lista_atendente.dart';
+import 'package:hora_certa/app/dominio/dto/dto_atendente.dart';
+import 'package:hora_certa/app/aplicacao/ap_atendente.dart';
 
-class FormularioCliente extends StatefulWidget {
+class FormularioAtendente extends StatefulWidget {
   @override
-  _FormularioClienteState createState() => _FormularioClienteState();
+  _FormularioAtendenteState createState() => _FormularioAtendenteState();
 }
 
-class _FormularioClienteState extends State<FormularioCliente> {
+class _FormularioAtendenteState extends State<FormularioAtendente> {
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController _nomeController = TextEditingController();
   final TextEditingController _cpfController = TextEditingController();
-  final TextEditingController _telefoneController = TextEditingController();
   final TextEditingController _senhaController = TextEditingController();
 
-  void _cadastrarCliente() async {
+  void _cadastrarAtendente() async {
     if (_formKey.currentState!.validate()) {
-      var aplicacao = APCliente();
+      var aplicacao = APAtendente();
       
-      var novoCliente = DTOCliente(
+      var novoAtendente = DTOAtendente(
         nome: _nomeController.text,
         cpf: _cpfController.text,
-        telefone: _telefoneController.text,
         senha: _senhaController.text,
-        telefoneEhWhatsapp: false,
         estaAtivo: true, 
       );
       
-      var clienteSalvo = await aplicacao.salvar(novoCliente);
+      var atendenteSalvo = await aplicacao.salvar(novoAtendente);
 
-    if (clienteSalvo != null) {
+    if (atendenteSalvo != null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Cliente cadastrado com sucesso!'))
+        SnackBar(content: Text('Atendente cadastrado com sucesso!'))
       );
       _limparFormulario();
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Erro ao cadastrar o cliente!'))
+        SnackBar(content: Text('Erro ao cadastrar o atendente!'))
       );
     }
     }
@@ -48,7 +44,6 @@ class _FormularioClienteState extends State<FormularioCliente> {
   void _limparFormulario() {
     _nomeController.clear();
     _cpfController.clear();
-    _telefoneController.clear();
     _senhaController.clear();
   }
 
@@ -108,16 +103,6 @@ class _FormularioClienteState extends State<FormularioCliente> {
                       },
                     ),
                     TextFormField(
-                      controller: _telefoneController,
-                      decoration: InputDecoration(label: Text("Telefone")),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Por favor, insira o telefone';
-                        }
-                        return null;
-                      },
-                    ),
-                    TextFormField(
                       controller: _senhaController,
                       decoration: InputDecoration(label: Text("Senha")),
                       obscureText: true,
@@ -135,7 +120,7 @@ class _FormularioClienteState extends State<FormularioCliente> {
                       height: 32,
                     ),
                     ElevatedButton(
-                        onPressed: _cadastrarCliente,
+                        onPressed: _cadastrarAtendente,
                         child: const Text("Cadastrar")),
                     SizedBox(
                       height: 32,
@@ -145,19 +130,7 @@ class _FormularioClienteState extends State<FormularioCliente> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => FormularioAtendente()),
-                          );
-                        },
-                        child: const Text("Cadastrar um Atendente")),
-                    SizedBox(
-                      height: 32,
-                    ),
-                    ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ListaCliente()),
+                                builder: (context) => ListaAtendente()),
                           );
                         },
                         child: const Text("Listar")),
