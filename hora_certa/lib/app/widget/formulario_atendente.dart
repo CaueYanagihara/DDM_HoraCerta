@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hora_certa/app/widget/formulario_cliente.dart';
 import 'package:hora_certa/app/widget/lista_atendente.dart';
 import 'package:hora_certa/app/dominio/dto/dto_atendente.dart';
 import 'package:hora_certa/app/aplicacao/ap_atendente.dart';
@@ -18,26 +19,24 @@ class _FormularioAtendenteState extends State<FormularioAtendente> {
   void _cadastrarAtendente() async {
     if (_formKey.currentState!.validate()) {
       var aplicacao = APAtendente();
-      
+
       var novoAtendente = DTOAtendente(
         nome: _nomeController.text,
         cpf: _cpfController.text,
         senha: _senhaController.text,
-        estaAtivo: true, 
+        estaAtivo: true,
       );
-      
+
       var atendenteSalvo = await aplicacao.salvar(novoAtendente);
 
-    if (atendenteSalvo != null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Atendente cadastrado com sucesso!'))
-      );
-      _limparFormulario();
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Erro ao cadastrar o atendente!'))
-      );
-    }
+      if (atendenteSalvo != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Atendente cadastrado com sucesso!')));
+        _limparFormulario();
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Erro ao cadastrar o atendente!')));
+      }
     }
   }
 
@@ -64,7 +63,7 @@ class _FormularioAtendenteState extends State<FormularioAtendente> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Form(
-                key: _formKey, 
+                key: _formKey,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -117,13 +116,13 @@ class _FormularioAtendenteState extends State<FormularioAtendente> {
                       },
                     ),
                     SizedBox(
-                      height: 32,
+                      height: 25,
                     ),
                     ElevatedButton(
                         onPressed: _cadastrarAtendente,
                         child: const Text("Cadastrar")),
                     SizedBox(
-                      height: 32,
+                      height: 25,
                     ),
                     ElevatedButton(
                         onPressed: () {
@@ -134,6 +133,18 @@ class _FormularioAtendenteState extends State<FormularioAtendente> {
                           );
                         },
                         child: const Text("Listar")),
+                    SizedBox(
+                      height: 25,
+                    ),
+                    ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => FormularioCliente()),
+                          );
+                        },
+                        child: const Text("Cadastrar um Cliente")),
                     Divider(),
                   ],
                 ),

@@ -73,13 +73,13 @@ class Cliente {
 
   Future<DTOCliente> alterar(DTOCliente dto) async {
     validarDAO(dao);
-  return await dao.alterar(dto);
+    return await dao.alterar(dto);
   }
 
   Future<bool> excluir(dynamic id) async {
     validarDAO(dao);
     await dao.excluir(id);
-  return true;
+    return true;
   }
 
   Future<List<DTOCliente>> consultar() async {

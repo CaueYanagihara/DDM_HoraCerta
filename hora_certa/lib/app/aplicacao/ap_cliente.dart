@@ -22,10 +22,12 @@ class APCliente {
     await cliente.salvar(dto);
 
     var clientes = await cliente.consultar();
-    var clienteSalvo =
-        clientes.firstWhere((c) => c.cpf == cliente.cpf, orElse: () {
-      throw Exception('Erro: Cliente não encontrado no banco de dados.');
-    });
+    var clienteSalvo = clientes.firstWhere(
+      (c) => c.cpf == cliente.cpf, 
+      orElse: () {
+        throw Exception('Erro: Cliente não encontrado no banco de dados.');
+      }
+    );
 
     return clienteSalvo;
   }

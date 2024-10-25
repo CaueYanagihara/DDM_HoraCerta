@@ -9,14 +9,12 @@ class Conexao {
   static Future<Database> abrir() async {
     if (!conexaoCriada) {
       var path = join(await getDatabasesPath(), 'banco.db');
-      _db = await openDatabase(
-        path, 
-        version: 1, 
-        onCreate: (db, version) {
-          criarTabelas.forEach(db.execute);
-          inserirRegistros.forEach(db.execute);
-        }
-      );
+      await deleteDatabase(path);
+
+      _db = await openDatabase(path, version: 1, onCreate: (db, version) {
+        criarTabelas.forEach(db.execute);
+        inserirRegistros.forEach(db.execute);
+      });
       conexaoCriada = true;
     }
     return _db;

@@ -11,6 +11,7 @@ class Atendente {
   bool _estaAtivo = false;
   String? _observacao;
 
+  late DTOAtendente dto;
   late IDAOAtendente dao;
 
   Atendente({required this.dao});
@@ -35,7 +36,6 @@ class Atendente {
   }
 
   void validarNome(DTOAtendente dto) {
-    
     if (dto.nome.isEmpty) {
       throw Exception('Nome não pode ser vazio');
     }
@@ -56,14 +56,14 @@ class Atendente {
     return await dao.salvar(dto);
   }
 
-  Future<DTOAtendente> alterar(dynamic id) async {
+  Future<DTOAtendente> alterar(DTOAtendente dto) async {
     validarDAO(dao);
-    return await dao.alterar(_id);
+    return await dao.alterar(dto);
   }
 
   Future<bool> excluir(dynamic id) async {
     validarDAO(dao);
-    await dao.alterarStatus(_id);
+    await dao.alterarStatus(id);
     return true;
   }
 
