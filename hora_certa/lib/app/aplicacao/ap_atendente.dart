@@ -10,10 +10,11 @@ class APAtendente {
 
   APAtendente() {
     dao = DAOAtendente();
+    atendente = Atendente(dao: dao);
   }
 
   void validarAtendente() {
-    atendente = Atendente(dto: dto, dao: dao);
+    atendente = Atendente(dao: dao);
   }
 
   Future<DTOAtendente> salvar(DTOAtendente dto) async {

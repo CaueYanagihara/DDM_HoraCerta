@@ -15,6 +15,7 @@ const criarTabelas = {
       id INTEGER NOT NULL PRIMARY KEY
       ,nome VARCHAR(200) NOT NULL
       ,cpf CHAR(14) NOT NULL UNIQUE
+      ,senha VARCHAR(200) NOT NULL
       ,estaAtivo CHAR(1) NOT NULL
       ,observacao VARCHAR(200)
       );

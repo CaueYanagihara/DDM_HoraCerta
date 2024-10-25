@@ -13,20 +13,19 @@ class Atendente {
 
   late IDAOAtendente dao;
 
-  Atendente({required DTOAtendente dto, required this.dao}) {
-    validarDTO(dto: dto);
+  Atendente({required this.dao});
+
+  validarDTO({required DTOAtendente dto}) {
+    validarNome(dto);
+    CPF(dto.cpf);
+    validarSenha(dto);
+
     this._id = dto.id;
     this._nome = dto.nome;
     this._cpf = dto.cpf;
     this._senha = dto.senha;
     this._estaAtivo = dto.estaAtivo;
     this._observacao = dto.observacao;
-  }
-
-  validarDTO({required DTOAtendente dto}) {
-    validarNome(dto);
-    CPF(dto.cpf);
-    validarSenha(dto);
   }
 
   validarDAO(IDAOAtendente dao) {
