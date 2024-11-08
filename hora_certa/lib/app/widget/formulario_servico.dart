@@ -20,9 +20,11 @@ class _FormularioServicoState extends State<FormularioServico> {
     if (_formKey.currentState!.validate()) {
       var aplicacao = APServico();
 
+      int? preco = int.tryParse(_precoController.text) ?? 0;
+
       var novoServico = DTOServico(
         nome: _nomeController.text,
-        preco: _precoController.text,
+        preco: preco,
         tempo: _tempoController.text,
         estaAtivo: true,
       );

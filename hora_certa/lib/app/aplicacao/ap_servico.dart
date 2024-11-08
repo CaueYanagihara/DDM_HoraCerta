@@ -18,7 +18,7 @@ class APServico {
     servico = Servico(dao: dao);
   }
 
-  Future<DTOServico> salvar(BuildContext context, DTOServico dto) async {
+  Future<DTOServico> salvar(DTOServico dto) async {
     validarServico();
 
     await servico.salvar(dto);
