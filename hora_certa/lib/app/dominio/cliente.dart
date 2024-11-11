@@ -34,7 +34,7 @@ class Cliente {
     this._observacao = dto.observacao;
   }
 
-  validarDAO(IDAOCliente dao) {
+  validarDAO(IDAOCliente? dao) {
     if (dao == null) {
       throw Exception('Dao não pode ser nulo!');
     }
@@ -87,6 +87,7 @@ class Cliente {
     return await dao.consultar();
   }
 
+  dynamic get id => _id;
   String? get nome => _nome;
   String? get cpf => _cpf;
   String? get telefone => _telefone;
@@ -95,7 +96,7 @@ class Cliente {
   bool get estaAtivo => _estaAtivo;
   String? get observacao => _observacao;
 
-  set id(int? id) {
+  set id(dynamic id) {
     if (id == null) throw Exception('Erro: ID não pode ser nulo');
     if (id < 0) throw Exception('Erro: ID não pode ser negativo');
     _id = id;

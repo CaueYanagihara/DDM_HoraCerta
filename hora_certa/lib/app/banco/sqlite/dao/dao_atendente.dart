@@ -97,7 +97,7 @@ class DAOAtendente implements IDAOAtendente {
   @override
   Future<DTOAtendente> excluir(DTOAtendente dto) async {
     _db = await Conexao.abrir();
-    await _db.rawDelete('DELETE * FROM atendente WHERE id = ?', [dto.id]);
+    await _db.rawDelete('DELETE FROM atendente WHERE id = ?', [dto.id]);
     return dto;
   }
 }

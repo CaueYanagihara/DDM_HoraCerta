@@ -5,7 +5,9 @@ class DTOAgenda {
   late dynamic atendenteId;
   late DateTime dataHoraInicio;
   late DateTime dataHoraFim;
+  late int preco;
   late String status;
+  String? observacao;
 
   DTOAgenda(
       {this.id,
@@ -14,5 +16,7 @@ class DTOAgenda {
       required this.atendenteId,
       required this.dataHoraInicio,
       required this.dataHoraFim,
-      required this.status});
+      required this.preco,
+      required this.status,
+      this.observacao});
 }

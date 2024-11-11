@@ -6,65 +6,65 @@ import 'package:hora_certa/app/dominio/cliente.dart';
 void main() {
   var dao = DAOClienteFake();
 
-  var dtoValido = DTOCliente(
-      id: 1,
-      nome: 'Caue',
-      cpf: '070.304.390-07',
-      telefone: '123456789',
-      senha: 'senha123',
-      telefoneEhWhatsapp: true,
-      estaAtivo: true,
-      observacao: '');
+  // var dtoValido = DTOCliente(
+  //     id: 1,
+  //     nome: 'Caue',
+  //     cpf: '070.304.390-07',
+  //     telefone: '123456789',
+  //     senha: 'senha123',
+  //     telefoneEhWhatsapp: true,
+  //     estaAtivo: true,
+  //     observacao: '');
 
-  var dtoSemNome = DTOCliente(
-      id: 1,
-      nome: '',
-      cpf: '070.304.390-07',
-      telefone: '123456789',
-      senha: 'senha123',
-      telefoneEhWhatsapp: true,
-      estaAtivo: true,
-      observacao: '');
+  // var dtoSemNome = DTOCliente(
+  //     id: 1,
+  //     nome: '',
+  //     cpf: '070.304.390-07',
+  //     telefone: '123456789',
+  //     senha: 'senha123',
+  //     telefoneEhWhatsapp: true,
+  //     estaAtivo: true,
+  //     observacao: '');
 
-  var dtoSemCPF = DTOCliente(
-      id: 1,
-      nome: 'Caue',
-      cpf: '',
-      telefone: '123456789',
-      senha: 'senha123',
-      telefoneEhWhatsapp: true,
-      estaAtivo: true,
-      observacao: '');
+  // var dtoSemCPF = DTOCliente(
+  //     id: 1,
+  //     nome: 'Caue',
+  //     cpf: '',
+  //     telefone: '123456789',
+  //     senha: 'senha123',
+  //     telefoneEhWhatsapp: true,
+  //     estaAtivo: true,
+  //     observacao: '');
 
-  var dtoSemTelefone = DTOCliente(
-      id: 1,
-      nome: 'Caue',
-      cpf: '070.304.390-07',
-      telefone: '',
-      senha: 'senha123',
-      telefoneEhWhatsapp: true,
-      estaAtivo: true,
-      observacao: '');
+  // var dtoSemTelefone = DTOCliente(
+  //     id: 1,
+  //     nome: 'Caue',
+  //     cpf: '070.304.390-07',
+  //     telefone: '',
+  //     senha: 'senha123',
+  //     telefoneEhWhatsapp: true,
+  //     estaAtivo: true,
+  //     observacao: '');
 
-  var dtoSenhaPequena = DTOCliente(
-      id: 1,
-      nome: 'Caue',
-      cpf: '070.304.390-07',
-      telefone: '123456789',
-      senha: 'test',
-      telefoneEhWhatsapp: true,
-      estaAtivo: true,
-      observacao: '');
+  // var dtoSenhaPequena = DTOCliente(
+  //     id: 1,
+  //     nome: 'Caue',
+  //     cpf: '070.304.390-07',
+  //     telefone: '123456789',
+  //     senha: 'test',
+  //     telefoneEhWhatsapp: true,
+  //     estaAtivo: true,
+  //     observacao: '');
 
-  var dtoWhatsappFalse = DTOCliente(
-      id: 1,
-      nome: 'Caue',
-      cpf: '070.304.390-07',
-      telefone: '123456789',
-      senha: 'senha123',
-      telefoneEhWhatsapp: false,
-      estaAtivo: true,
-      observacao: '');
+  // var dtoWhatsappFalse = DTOCliente(
+  //     id: 1,
+  //     nome: 'Caue',
+  //     cpf: '070.304.390-07',
+  //     telefone: '123456789',
+  //     senha: 'senha123',
+  //     telefoneEhWhatsapp: false,
+  //     estaAtivo: true,
+  //     observacao: '');
 
   group('Entidade Cliente', () {
     test('Deve criar um cliente com dados válidos', () {

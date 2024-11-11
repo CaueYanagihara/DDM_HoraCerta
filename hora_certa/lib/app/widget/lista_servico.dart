@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:hora_certa/app/aplicacao/ap_servico.dart';
 import 'package:hora_certa/app/dominio/dto/dto_servico.dart';

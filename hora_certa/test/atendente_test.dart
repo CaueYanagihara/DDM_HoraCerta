@@ -6,53 +6,53 @@ import 'package:hora_certa/app/dominio/atendente.dart';
 void main() {
   var dao = DAOAtendenteFake();
 
-  var dtoValido = DTOAtendente(
-      id: 1,
-      nome: 'Caue',
-      cpf: '070.304.390-07',
-      senha: 'senha123',
-      estaAtivo: true,
-      observacao: '');
+  // var dtoValido = DTOAtendente(
+  //     id: 1,
+  //     nome: 'Caue',
+  //     cpf: '070.304.390-07',
+  //     senha: 'senha123',
+  //     estaAtivo: true,
+  //     observacao: '');
 
-  var dtoSemNome = DTOAtendente(
-      id: 1,
-      nome: '',
-      cpf: '070.304.390-07',
-      senha: 'senha123',
-      estaAtivo: true,
-      observacao: '');
+  // var dtoSemNome = DTOAtendente(
+  //     id: 1,
+  //     nome: '',
+  //     cpf: '070.304.390-07',
+  //     senha: 'senha123',
+  //     estaAtivo: true,
+  //     observacao: '');
 
-  var dtoSemCPF = DTOAtendente(
-      id: 1,
-      nome: 'Caue',
-      cpf: '',
-      senha: 'senha123',
-      estaAtivo: true,
-      observacao: '');
+  // var dtoSemCPF = DTOAtendente(
+  //     id: 1,
+  //     nome: 'Caue',
+  //     cpf: '',
+  //     senha: 'senha123',
+  //     estaAtivo: true,
+  //     observacao: '');
 
-  var dtoSemTelefone = DTOAtendente(
-      id: 1,
-      nome: 'Caue',
-      cpf: '070.304.390-07',
-      senha: 'senha123',
-      estaAtivo: true,
-      observacao: '');
+  // var dtoSemTelefone = DTOAtendente(
+  //     id: 1,
+  //     nome: 'Caue',
+  //     cpf: '070.304.390-07',
+  //     senha: 'senha123',
+  //     estaAtivo: true,
+  //     observacao: '');
 
-  var dtoSenhaPequena = DTOAtendente(
-      id: 1,
-      nome: 'Caue',
-      cpf: '070.304.390-07',
-      senha: 'test',
-      estaAtivo: true,
-      observacao: '');
+  // var dtoSenhaPequena = DTOAtendente(
+  //     id: 1,
+  //     nome: 'Caue',
+  //     cpf: '070.304.390-07',
+  //     senha: 'test',
+  //     estaAtivo: true,
+  //     observacao: '');
 
-  var dtoWhatsappFalse = DTOAtendente(
-      id: 1,
-      nome: 'Caue',
-      cpf: '070.304.390-07',
-      senha: 'senha123',
-      estaAtivo: true,
-      observacao: '');
+  // var dtoWhatsappFalse = DTOAtendente(
+  //     id: 1,
+  //     nome: 'Caue',
+  //     cpf: '070.304.390-07',
+  //     senha: 'senha123',
+  //     estaAtivo: true,
+  //     observacao: '');
 
   group('Entidade Atendente', () {
     test('Deve criar um atendente com dados válidos', () {
@@ -80,13 +80,11 @@ class DAOAtendenteFake implements IDAOAtendente {
 
   @override
   Future<DTOAtendente> alterar(DTOAtendente dto) async {
-    // TODO: implement alterar
     return dto;
   }
 
   @override
   Future<bool> alterarStatus(id) async {
-    // TODO: implement alterar
     return true;
   }
 
@@ -105,7 +103,6 @@ class DAOAtendenteFake implements IDAOAtendente {
 
   @override
   Future<DTOAtendente> consultarPorId(id) async {
-    // TODO: implement consultarPorId
     return DTOAtendente(
         id: 1,
         nome: 'Caue',
@@ -117,7 +114,6 @@ class DAOAtendenteFake implements IDAOAtendente {
 
   @override
   Future<DTOAtendente> excluir(DTOAtendente dto) async {
-    // TODO: implement excluir
     return DTOAtendente(
         id: 1,
         nome: 'Caue',

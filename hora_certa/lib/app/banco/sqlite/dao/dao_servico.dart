@@ -86,10 +86,10 @@ class DAOServico implements IDAOServico {
     DTOServico servico = DTOServico(
         id: linha['id'],
         nome: linha['nome'].toString(),
-        preco: linha['preco'] as int,
+        preco: int.parse(linha['preco'].toString()),
         tempo: linha['tempo'].toString(),
         estaAtivo: linha['estaAtivo'] == 1,
-        observacao: linha['observacao'].toString());
+        observacao: linha['observacao']?.toString() ?? '');
 
     return servico;
   }
@@ -97,7 +97,7 @@ class DAOServico implements IDAOServico {
   @override
   Future<DTOServico> excluir(DTOServico dto) async {
     _db = await Conexao.abrir();
-    await _db.rawDelete('DELETE * FROM servico WHERE id = ?', [dto.id]);
+    await _db.rawDelete('DELETE FROM servico WHERE id = ?', [dto.id]);
     return dto;
   }
 }
