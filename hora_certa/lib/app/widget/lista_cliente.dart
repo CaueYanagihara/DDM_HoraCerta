@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hora_certa/app/aplicacao/ap_cliente.dart';
 import 'package:hora_certa/app/dominio/dto/dto_cliente.dart';
+import 'detalhe_cliente.dart';
 
 class ListaCliente extends StatelessWidget {
   Future<List<DTOCliente>> consultar() async {
@@ -28,10 +29,29 @@ class ListaCliente extends StatelessWidget {
               itemCount: lista.length,
               itemBuilder: (context, index) {
                 var cliente = lista[index];
-                return ListTile(
-                  leading: Icon(Icons.person),
-                  title: Text(cliente.nome),
-                  subtitle: Text(cliente.cpf),
+                return Card(
+                  child: ListTile(
+                    leading: Icon(Icons.person),
+                    title: Text(cliente.nome),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('CPF: ${cliente.cpf}'),
+                        Text('Telefone: ${cliente.telefone}'),
+                      ],
+                    ),
+                    trailing: IconButton(
+                      icon: Icon(Icons.edit),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => DetalheCliente(cliente: cliente),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
                 );
               }
             );
