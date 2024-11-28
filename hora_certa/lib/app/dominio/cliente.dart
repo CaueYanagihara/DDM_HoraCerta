@@ -41,7 +41,6 @@ class Cliente {
   }
 
   void validarNome(DTOCliente dto) {
-    
     if (dto.nome.isEmpty) {
       throw Exception('Nome não pode ser vazio');
     }
@@ -76,15 +75,19 @@ class Cliente {
     return await dao.alterar(dto);
   }
 
-  Future<bool> excluir(dynamic id) async {
+  Future<void> excluir(dynamic id) async {
     validarDAO(dao);
     await dao.excluir(id);
-    return true;
   }
 
   Future<List<DTOCliente>> consultar() async {
     validarDAO(dao);
     return await dao.consultar();
+  }
+
+  Future<bool> alterarStatus(dynamic id) async {
+    validarDAO(dao);
+    return await dao.alterarStatus(id);
   }
 
   dynamic get id => _id;
