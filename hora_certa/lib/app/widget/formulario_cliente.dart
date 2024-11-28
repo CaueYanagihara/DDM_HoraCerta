@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hora_certa/app/widget/formulario_atendente.dart';
 import 'package:hora_certa/app/widget/lista_cliente.dart';
+import 'package:hora_certa/app/widget/home_agenda.dart';
 import 'package:hora_certa/app/dominio/dto/dto_cliente.dart';
 import 'package:hora_certa/app/aplicacao/ap_cliente.dart';
 
@@ -73,10 +73,10 @@ class _FormularioClienteState extends State<FormularioCliente> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     const Text(
-                      "App",
+                      "Novo Cliente",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 48,
+                        fontSize: 36,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
@@ -139,14 +139,15 @@ class _FormularioClienteState extends State<FormularioCliente> {
                       height: 25,
                     ),
                     ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ListaCliente()),
-                          );
-                        },
-                        child: const Text("Listar")),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ListaCliente()),
+                        );
+                      },
+                      child: const Text("Listar clientes"),
+                    ),
                     SizedBox(
                       height: 25,
                     ),
@@ -155,10 +156,13 @@ class _FormularioClienteState extends State<FormularioCliente> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => FormularioAtendente()),
+                                builder: (context) => HomeAgenda()),
                           );
                         },
-                        child: const Text("Cadastrar um Atendente")),
+                        child: const Text("Voltar")),
+                    SizedBox(
+                      height: 25,
+                    ),
                     Divider(),
                   ],
                 ),

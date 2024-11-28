@@ -5,9 +5,21 @@ import 'package:hora_certa/app/banco/sqlite/conexao.dart';
 
 class DAOAtendente implements IDAOAtendente {
   late Database _db;
+
+  final sqlCriarTabela = '''
+    CREATE TABLE IF NOT EXISTS atendente (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      nome TEXT,
+      cpf TEXT,
+      senha TEXT,
+      estaAtivo INTEGER,
+      observacao TEXT
+    )
+  ''';
+
   final sqlInserir = '''
     INSERT INTO atendente (nome, cpf, senha, estaAtivo, observacao)
-    VALUES (?,?,?,?,?)
+    VALUES (?, ?, ?, ?, ?)
   ''';
   final sqlAlterar = '''
     UPDATE atendente SET nome=?, cpf=?, senha=?, estaAtivo=?, observacao=?
@@ -24,11 +36,24 @@ class DAOAtendente implements IDAOAtendente {
     SELECT * FROM atendente;
   ''';
 
+  Future<void> _criarTabela() async {
+    _db = await Conexao.abrir();
+    await _db.execute(sqlCriarTabela);
+  }
+
   @override
   Future<DTOAtendente> salvar(DTOAtendente dto) async {
-    _db = await Conexao.abrir();
-    int id = await _db.rawInsert(sqlInserir,
-        [dto.nome, dto.cpf, dto.senha, dto.estaAtivo ? 1 : 0, dto.observacao]);
+    await _criarTabela();
+    int id = await _db.insert(
+      'atendente',
+      {
+        'nome': dto.nome,
+        'cpf': dto.cpf,
+        'senha': dto.senha,
+        'estaAtivo': dto.estaAtivo ? 1 : 0,
+        'observacao': dto.observacao ?? ''
+      }
+    );
     dto.id = id;
     return dto;
   }

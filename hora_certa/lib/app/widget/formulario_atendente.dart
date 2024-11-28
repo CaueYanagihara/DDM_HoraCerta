@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hora_certa/app/widget/formulario_cliente.dart';
+import 'package:hora_certa/app/widget/home_agenda.dart';
 import 'package:hora_certa/app/widget/lista_atendente.dart';
 import 'package:hora_certa/app/dominio/dto/dto_atendente.dart';
 import 'package:hora_certa/app/aplicacao/ap_atendente.dart';
@@ -69,7 +69,7 @@ class _FormularioAtendenteState extends State<FormularioAtendente> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     const Text(
-                      "App",
+                      "Novo Atendente",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 48,
@@ -132,7 +132,7 @@ class _FormularioAtendenteState extends State<FormularioAtendente> {
                                 builder: (context) => ListaAtendente()),
                           );
                         },
-                        child: const Text("Listar")),
+                        child: const Text("Listar Atendentes")),
                     SizedBox(
                       height: 25,
                     ),
@@ -141,10 +141,10 @@ class _FormularioAtendenteState extends State<FormularioAtendente> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => FormularioCliente()),
+                                builder: (context) => HomeAgenda()),
                           );
                         },
-                        child: const Text("Cadastrar um Cliente")),
+                        child: const Text("Voltar")),
                     Divider(),
                   ],
                 ),

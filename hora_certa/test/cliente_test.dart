@@ -68,10 +68,8 @@ void main() {
 
   group('Entidade Cliente', () {
     test('Deve criar um cliente com dados válidos', () {
-      expect(
-        () => Cliente(dao: dao),
-        returnsNormally,
-      );
+      final cliente = Cliente(dao: dao);
+      expect(cliente.estaAtivo, isTrue);
     });
 
     test('Deve lançar uma exceção se o telefone for vazio', () {

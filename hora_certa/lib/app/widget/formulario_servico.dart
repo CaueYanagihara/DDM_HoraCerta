@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:hora_certa/app/aplicacao/ap_servico.dart';
-import 'package:hora_certa/app/dominio/dto/dto_servico.dart';
-import 'package:hora_certa/app/widget/formulario_cliente.dart';
 import 'package:hora_certa/app/widget/lista_servico.dart';
+import 'package:hora_certa/app/widget/home_agenda.dart';
+import 'package:hora_certa/app/dominio/dto/dto_servico.dart';
+import 'package:hora_certa/app/aplicacao/ap_servico.dart';
 
 class FormularioServico extends StatefulWidget {
   @override
@@ -15,6 +15,7 @@ class _FormularioServicoState extends State<FormularioServico> {
   final TextEditingController _nomeController = TextEditingController();
   final TextEditingController _precoController = TextEditingController();
   final TextEditingController _tempoController = TextEditingController();
+  final TextEditingController _senhaController = TextEditingController();
 
   void _cadastrarServico() async {
     if (_formKey.currentState!.validate()) {
@@ -46,6 +47,7 @@ class _FormularioServicoState extends State<FormularioServico> {
     _nomeController.clear();
     _precoController.clear();
     _tempoController.clear();
+    _senhaController.clear();
   }
 
   @override
@@ -71,10 +73,10 @@ class _FormularioServicoState extends State<FormularioServico> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     const Text(
-                      "App",
+                      "Novo Servico",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 48,
+                        fontSize: 36,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
@@ -94,31 +96,23 @@ class _FormularioServicoState extends State<FormularioServico> {
                     ),
                     TextFormField(
                       controller: _precoController,
-                      decoration: InputDecoration(label: Text("CPF")),
+                      decoration: InputDecoration(label: Text("Preço")),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Por favor, insira o CPF';
+                          return 'Por favor, insira o preço';
                         }
-                        // Adicione validação de CPF aqui se necessário
                         return null;
                       },
                     ),
                     TextFormField(
                       controller: _tempoController,
-                      decoration: InputDecoration(label: Text("Senha")),
-                      obscureText: true,
+                      decoration: InputDecoration(label: Text("Tempo de Duração")),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Por favor, insira a tempo';
-                        }
-                        if (value.length < 6) {
-                          return 'A tempo deve ter no mínimo 6 caracteres';
+                          return 'Por favor, insira o tempo de duração';
                         }
                         return null;
                       },
-                    ),
-                    SizedBox(
-                      height: 25,
                     ),
                     ElevatedButton(
                         onPressed: _cadastrarServico,
@@ -127,14 +121,15 @@ class _FormularioServicoState extends State<FormularioServico> {
                       height: 25,
                     ),
                     ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ListaServico()),
-                          );
-                        },
-                        child: const Text("Listar")),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ListaServico()),
+                        );
+                      },
+                      child: const Text("Listar servicos"),
+                    ),
                     SizedBox(
                       height: 25,
                     ),
@@ -143,10 +138,13 @@ class _FormularioServicoState extends State<FormularioServico> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => FormularioCliente()),
+                                builder: (context) => HomeAgenda()),
                           );
                         },
-                        child: const Text("Cadastrar um Cliente")),
+                        child: const Text("Voltar")),
+                    SizedBox(
+                      height: 25,
+                    ),
                     Divider(),
                   ],
                 ),

@@ -42,9 +42,6 @@ class Atendente {
   }
 
   void validarSenha(DTOAtendente dto) {
-    if (dto.senha == null) {
-      throw Exception('A senha não pode ser nula!');
-    }
     if (dto.senha.length < 6) {
       throw Exception('A senha deve ter no mínimo 6 caracteres!');
     }

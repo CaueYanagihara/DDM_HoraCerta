@@ -7,7 +7,7 @@ class DAOCliente implements IDAOCliente {
   late Database _db;
   final sqlInserir = '''
     INSERT INTO cliente (nome, cpf, telefone, senha, telefoneEhWhatsapp, estaAtivo, observacao)
-    VALUES (?,?,?,?,?,?,?)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
   ''';
   final sqlAlterar = '''
     UPDATE cliente SET nome=?, cpf=?, telefone=?, senha=?, telefoneEhWhatsapp=?, estaAtivo=?, observacao=?
@@ -27,17 +27,18 @@ class DAOCliente implements IDAOCliente {
   @override
   Future<DTOCliente> salvar(DTOCliente dto) async {
     _db = await Conexao.abrir();
-    int id = await _db.rawInsert(
-        sqlInserir,
-        [
-          dto.nome,
-          dto.cpf,
-          dto.telefone,
-          dto.senha,
-          dto.telefoneEhWhatsapp ? 1 : 0,
-          dto.estaAtivo ? 1 : 0,
-          dto.observacao
-        ]);
+    int id = await _db.insert(
+      'cliente',
+      {
+        'nome': dto.nome,
+        'cpf': dto.cpf,
+        'telefone': dto.telefone,
+        'senha': dto.senha,
+        'telefoneEhWhatsapp': dto.telefoneEhWhatsapp ? 1 : 0,
+        'estaAtivo': dto.estaAtivo ? 1 : 0,
+        'observacao': dto.observacao ?? ''
+      }
+    );
     dto.id = id;
     return dto;
   }
@@ -113,11 +114,10 @@ class DAOCliente implements IDAOCliente {
   
   
   @override
-  Future<DTOCliente> excluir(DTOCliente dto) async {
+  Future<void> excluir(dynamic id) async {
     _db = await Conexao.abrir();
     await _db.rawDelete(
         'DELETE FROM cliente WHERE id = ?',
-        [dto.id]);
-    return dto; //VERIFICAR SE ISSO NAO VAI DAR ERRO
+        [id]);
   }
 }

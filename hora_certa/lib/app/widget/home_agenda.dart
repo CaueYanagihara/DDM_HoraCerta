@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'formulario_cliente.dart';
+import 'formulario_atendente.dart';
+import 'formulario_servico.dart';
+import 'lista_cliente.dart';
+import 'lista_atendente.dart';
+import 'lista_servico.dart';
 
 class HomeAgenda extends StatelessWidget {
   final List<Atendente> atendentes = [
@@ -44,6 +50,76 @@ class HomeAgenda extends StatelessWidget {
       appBar: AppBar(
         title: Text("Kanban de Atendimentos"),
         backgroundColor: Colors.indigo,
+        actions: [
+          PopupMenuButton<String>(
+            onSelected: (String result) {
+              switch (result) {
+                case 'Cadastrar Cliente':
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => FormularioCliente()),
+                  );
+                  break;
+                case 'Cadastrar Atendente':
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => FormularioAtendente()),
+                  );
+                  break;
+                case 'Cadastrar Serviço':
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => FormularioServico()),
+                  );
+                  break;
+                case 'Listar Clientes':
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ListaCliente()),
+                  );
+                  break;
+                case 'Listar Atendentes':
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ListaAtendente()),
+                  );
+                  break;
+                case 'Listar Serviços':
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ListaServico()),
+                  );
+                  break;
+              }
+            },
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+              const PopupMenuItem<String>(
+                value: 'Cadastrar Cliente',
+                child: Text('Cadastrar Cliente'),
+              ),
+              const PopupMenuItem<String>(
+                value: 'Cadastrar Atendente',
+                child: Text('Cadastrar Atendente'),
+              ),
+              const PopupMenuItem<String>(
+                value: 'Cadastrar Serviço',
+                child: Text('Cadastrar Serviço'),
+              ),
+              const PopupMenuItem<String>(
+                value: 'Listar Clientes',
+                child: Text('Listar Clientes'),
+              ),
+              const PopupMenuItem<String>(
+                value: 'Listar Atendentes',
+                child: Text('Listar Atendentes'),
+              ),
+              const PopupMenuItem<String>(
+                value: 'Listar Serviços',
+                child: Text('Listar Serviços'),
+              ),
+            ],
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
