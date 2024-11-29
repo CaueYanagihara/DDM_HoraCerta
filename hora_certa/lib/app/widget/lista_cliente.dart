@@ -22,10 +22,27 @@ class _ListaClienteState extends State<ListaCliente> {
   }
 
   Future<void> _excluirCliente(dynamic id) async {
-    await _aplicacao.excluir(id);
-    setState(() {});
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text('Cliente excluído com sucesso!')));
+    try {
+      await _aplicacao.excluir(id);
+      setState(() {});
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Cliente excluído com sucesso!')));
+    } catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Erro: $e')));
+    }
+  }
+
+  Future<void> _salvarCliente(DTOCliente dto) async {
+    try {
+      await _aplicacao.salvar(dto);
+      setState(() {});
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Cliente salvo com sucesso!')));
+    } catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Erro: $e')));
+    }
   }
 
   @override

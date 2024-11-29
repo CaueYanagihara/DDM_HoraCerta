@@ -42,6 +42,14 @@ class _DetalheClienteState extends State<DetalheCliente> {
         observacao: widget.cliente.observacao,
       );
 
+      _aplicacao.cliente.validarDTO(dto: clienteAtualizado);
+
+      if (_aplicacao.cliente.erroValidacao != null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(_aplicacao.cliente.erroValidacao!)));
+        return;
+      }
+
       var clienteSalvo = await _aplicacao.alterar(clienteAtualizado);
 
       if (clienteSalvo != null) {
