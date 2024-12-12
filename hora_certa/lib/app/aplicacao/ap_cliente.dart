@@ -22,12 +22,10 @@ class APCliente {
     await cliente.salvar(dto);
 
     var clientes = await cliente.consultar();
-    var clienteSalvo = clientes.firstWhere(
-      (c) => c.cpf == cliente.cpf, 
-      orElse: () {
-        throw Exception('Erro: Cliente não encontrado no banco de dados.');
-      }
-    );
+    var clienteSalvo =
+        clientes.firstWhere((c) => c.cpf == cliente.cpf, orElse: () {
+      throw Exception('Erro: Cliente não encontrado no banco de dados.');
+    });
 
     return clienteSalvo;
   }
@@ -37,9 +35,8 @@ class APCliente {
     return await cliente.alterar(id);
   }
 
-  Future<bool> excluir(dynamic id) async {
+  Future<void> excluir(dynamic id) async {
     await cliente.excluir(id);
-    return true;
   }
 
   Future<List<DTOCliente>> consultar() async {

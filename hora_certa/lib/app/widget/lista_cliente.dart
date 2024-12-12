@@ -21,11 +21,28 @@ class _ListaClienteState extends State<ListaCliente> {
     return await _aplicacao.consultar();
   }
 
-  void _excluirCliente(DTOCliente cliente) async {
-    await _aplicacao.excluir(cliente.id);
-    setState(() {});
-    ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Cliente excluído com sucesso!')));
+  Future<void> _excluirCliente(dynamic id) async {
+    try {
+      await _aplicacao.excluir(id);
+      setState(() {});
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Cliente excluído com sucesso!')));
+    } catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Erro: $e')));
+    }
+  }
+
+  Future<void> _salvarCliente(DTOCliente dto) async {
+    try {
+      await _aplicacao.salvar(dto);
+      setState(() {});
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Cliente salvo com sucesso!')));
+    } catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Erro: $e')));
+    }
   }
 
   @override
@@ -53,12 +70,15 @@ class _ListaClienteState extends State<ListaCliente> {
                   margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                   child: ListTile(
                     leading: Icon(Icons.person, color: Colors.blue),
-                    title: Text(cliente.nome, style: TextStyle(fontWeight: FontWeight.bold)),
+                    title: Text(cliente.nome,
+                        style: TextStyle(fontWeight: FontWeight.bold)),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('CPF: ${cliente.cpf}', style: TextStyle(color: Colors.grey)),
-                        Text('Telefone: ${cliente.telefone}', style: TextStyle(color: Colors.grey)),
+                        Text('CPF: ${cliente.cpf}',
+                            style: TextStyle(color: Colors.grey)),
+                        Text('Telefone: ${cliente.telefone}',
+                            style: TextStyle(color: Colors.grey)),
                       ],
                     ),
                     trailing: Row(
@@ -70,7 +90,8 @@ class _ListaClienteState extends State<ListaCliente> {
                             bool? result = await Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => DetalheCliente(cliente: cliente),
+                                builder: (context) =>
+                                    DetalheCliente(cliente: cliente),
                               ),
                             );
                             if (result == true) {
@@ -80,7 +101,7 @@ class _ListaClienteState extends State<ListaCliente> {
                         ),
                         IconButton(
                           icon: Icon(Icons.delete, color: Colors.red),
-                          onPressed: () => _excluirCliente(cliente),
+                          onPressed: () => _excluirCliente(cliente.id),
                         ),
                       ],
                     ),

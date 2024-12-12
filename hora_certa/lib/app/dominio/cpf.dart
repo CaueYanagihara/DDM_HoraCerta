@@ -16,7 +16,9 @@ class CPF {
 
   bool eOnzeNumeros() {
     numerosCPF.forEach(print);
-    if (numerosCPF.length != 11) throw Exception('CPF precisa ter 11 números');
+    if (numerosCPF.length != 11) {
+      throw Exception('CPF precisa ter 11 números');
+    }
     return true;
   }
 
@@ -50,13 +52,13 @@ class CPF {
 
   bool verificarPrimeiroDigito() {
     if (calcularDigito(8) != numerosCPF[9])
-      throw Exception('Primeiro digito incorreto!');
+      throw Exception('CPF inválido!');
     return true;
   }
 
   bool verificarSegundoDigito() {
     if (calcularDigito(9) != numerosCPF[10])
-      throw Exception('Segundo digito incorreto!');
+      throw Exception('CPF inválido!');
     return true;
   }
 }

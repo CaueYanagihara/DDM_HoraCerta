@@ -27,27 +27,23 @@ class DAOCliente implements IDAOCliente {
   @override
   Future<DTOCliente> salvar(DTOCliente dto) async {
     _db = await Conexao.abrir();
-    int id = await _db.insert(
-      'cliente',
-      {
-        'nome': dto.nome,
-        'cpf': dto.cpf,
-        'telefone': dto.telefone,
-        'senha': dto.senha,
-        'telefoneEhWhatsapp': dto.telefoneEhWhatsapp ? 1 : 0,
-        'estaAtivo': dto.estaAtivo ? 1 : 0,
-        'observacao': dto.observacao ?? ''
-      }
-    );
+    int id = await _db.insert('cliente', {
+      'nome': dto.nome,
+      'cpf': dto.cpf,
+      'telefone': dto.telefone,
+      'senha': dto.senha,
+      'telefoneEhWhatsapp': dto.telefoneEhWhatsapp ? 1 : 0,
+      'estaAtivo': dto.estaAtivo ? 1 : 0,
+      'observacao': dto.observacao ?? ''
+    });
     dto.id = id;
     return dto;
   }
-  
+
   @override
   Future<DTOCliente> alterar(DTOCliente dto) async {
     _db = await Conexao.abrir();
-    await _db.rawUpdate(sqlAlterar,
-        [
+    await _db.rawUpdate(sqlAlterar, [
       dto.nome,
       dto.cpf,
       dto.telefone,
@@ -56,10 +52,10 @@ class DAOCliente implements IDAOCliente {
       dto.estaAtivo ? 1 : 0,
       dto.observacao,
       dto.id
-      ]);
+    ]);
     return dto;
   }
-  
+
   @override
   Future<bool> alterarStatus(dynamic id) async {
     _db = await Conexao.abrir();
@@ -74,23 +70,22 @@ class DAOCliente implements IDAOCliente {
     List<DTOCliente> clientes = List.generate(resultado.length, (i) {
       var linha = resultado[i];
       return DTOCliente(
-        id: linha['id'],
-        nome: linha['nome'].toString(),
-        cpf: linha['cpf'].toString(),
-        telefone: linha['telefone'].toString(),
-        senha: linha['senha'].toString(),
-        telefoneEhWhatsapp: linha['telefoneEhWhatsapp']  == 1,
-        estaAtivo: linha['estaAtivo'] == 1,
-        observacao: linha['observacao'].toString()
-      );
+          id: linha['id'],
+          nome: linha['nome'].toString(),
+          cpf: linha['cpf'].toString(),
+          telefone: linha['telefone'].toString(),
+          senha: linha['senha'].toString(),
+          telefoneEhWhatsapp: linha['telefoneEhWhatsapp'] == 1,
+          estaAtivo: linha['estaAtivo'] == 1,
+          observacao: linha['observacao'].toString());
     });
     return clientes;
   }
-  
+
   @override
   Future<DTOCliente> consultarPorId(dynamic id) async {
     _db = await Conexao.abrir();
-  
+
     var resultado = await _db.rawQuery(sqlConsultarPorId, [id]);
 
     if (resultado.isEmpty) {
@@ -110,9 +105,8 @@ class DAOCliente implements IDAOCliente {
     );
 
     return cliente;
-  }   
-  
-  
+  }
+
   @override
   Future<bool> excluir(dynamic id) async {
     try {

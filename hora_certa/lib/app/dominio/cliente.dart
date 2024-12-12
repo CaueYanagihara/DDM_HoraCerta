@@ -1,4 +1,5 @@
 import 'package:hora_certa/app/dominio/dto/dto_cliente.dart';
+import 'package:flutter/material.dart';
 
 import 'cpf.dart';
 import 'package:hora_certa/app/dominio/interface/idao_cliente.dart';
@@ -12,6 +13,7 @@ class Cliente {
   bool _telefoneEhWhatsapp = false;
   bool _estaAtivo = false;
   String? _observacao;
+  String? _erroValidacao;
 
   late DTOCliente dto;
   late IDAOCliente dao;
@@ -19,19 +21,23 @@ class Cliente {
   Cliente({required this.dao});
 
   validarDTO({required DTOCliente dto}) {
-    validarNome(dto);
-    CPF(dto.cpf);
-    validarTelefone(dto);
-    validarSenha(dto);
+    try {
+      validarNome(dto);
+      CPF(dto.cpf);
+      validarTelefone(dto);
+      validarSenha(dto);
 
-    this._id = dto.id;
-    this._nome = dto.nome;
-    this._cpf = dto.cpf;
-    this._telefone = dto.telefone;
-    this._senha = dto.senha;
-    this._telefoneEhWhatsapp = dto.telefoneEhWhatsapp;
-    this._estaAtivo = dto.estaAtivo;
-    this._observacao = dto.observacao;
+      this._id = dto.id;
+      this._nome = dto.nome;
+      this._cpf = dto.cpf;
+      this._telefone = dto.telefone;
+      this._senha = dto.senha;
+      this._telefoneEhWhatsapp = dto.telefoneEhWhatsapp;
+      this._estaAtivo = dto.estaAtivo;
+      this._observacao = dto.observacao;
+    } catch (e) {
+      _erroValidacao = 'Erro: ${e.toString().replaceFirst('Exception: ', '')}';
+    }
   }
 
   validarDAO(IDAOCliente? dao) {
@@ -41,7 +47,6 @@ class Cliente {
   }
 
   void validarNome(DTOCliente dto) {
-    
     if (dto.nome.isEmpty) {
       throw Exception('Nome não pode ser vazio');
     }
@@ -72,6 +77,7 @@ class Cliente {
   }
 
   Future<DTOCliente> alterar(DTOCliente dto) async {
+    validarDTO(dto: dto);
     validarDAO(dao);
     return await dao.alterar(dto);
   }
@@ -93,6 +99,11 @@ class Cliente {
     return await dao.consultar();
   }
 
+  Future<bool> alterarStatus(dynamic id) async {
+    validarDAO(dao);
+    return await dao.alterarStatus(id);
+  }
+
   dynamic get id => _id;
   String? get nome => _nome;
   String? get cpf => _cpf;
@@ -101,6 +112,7 @@ class Cliente {
   bool get telefoneEhWhatsapp => _telefoneEhWhatsapp;
   bool get estaAtivo => _estaAtivo;
   String? get observacao => _observacao;
+  String? get erroValidacao => _erroValidacao;
 
   set id(dynamic id) {
     if (id == null) throw Exception('Erro: ID não pode ser nulo');
