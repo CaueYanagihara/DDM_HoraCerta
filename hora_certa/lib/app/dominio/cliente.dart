@@ -77,9 +77,15 @@ class Cliente {
   }
 
   Future<bool> excluir(dynamic id) async {
-    validarDAO(dao);
-    await dao.excluir(id);
-    return true;
+    try {
+      validarDAO(dao);
+      await dao.excluir(id);
+      return true;
+    } catch (e) {
+      print(e);
+    }
+    
+    return false;
   }
 
   Future<List<DTOCliente>> consultar() async {

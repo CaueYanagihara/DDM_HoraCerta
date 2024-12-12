@@ -141,16 +141,8 @@ class DAOClienteFake implements IDAOCliente {
   }
 
   @override
-  Future<DTOCliente> excluir(DTOCliente dto) async {
+  Future<bool> excluir(dynamic id) async {
     // TODO: implement excluir
-    return DTOCliente(
-        id: 1,
-        nome: 'Caue',
-        cpf: '070.304.390-07',
-        telefone: '123456789',
-        senha: 'senha123',
-        telefoneEhWhatsapp: true,
-        estaAtivo: true,
-        observacao: '');
+    return true;
   }
 }

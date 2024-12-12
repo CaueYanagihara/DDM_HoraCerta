@@ -114,10 +114,16 @@ class DAOCliente implements IDAOCliente {
   
   
   @override
-  Future<void> excluir(dynamic id) async {
-    _db = await Conexao.abrir();
-    await _db.rawDelete(
-        'DELETE FROM cliente WHERE id = ?',
-        [id]);
+  Future<bool> excluir(dynamic id) async {
+    try {
+      _db = await Conexao.abrir();
+      await _db.rawDelete(
+          'DELETE FROM cliente WHERE id = ?',
+          [id]);
+      return true;
+    } catch (e) {
+      print(e);
+    }
+    return false;
   }
 }
