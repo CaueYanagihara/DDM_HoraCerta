@@ -90,6 +90,10 @@ class Servico {
     _tempo = tempo;
   }
 
+  set estaAtivo(bool estaAtivo) {
+    _estaAtivo = estaAtivo;
+  }
+
   set observacao(String? observacao) {
     _observacao = observacao;
   }

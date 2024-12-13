@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:hora_certa/app/dominio/atendente.dart' as dominio;
+import 'package:hora_certa/app/dominio/cliente.dart';
+import 'package:hora_certa/app/dominio/servico.dart';
 import 'package:hora_certa/app/banco/sqlite/dao/dao_atendente.dart';
+import 'package:hora_certa/app/banco/sqlite/dao/dao_cliente.dart';
+import 'package:hora_certa/app/banco/sqlite/dao/dao_servico.dart';
 import 'package:hora_certa/app/aplicacao/ap_atendente.dart';
 import 'package:hora_certa/app/aplicacao/ap_agenda.dart';
+import 'package:hora_certa/app/aplicacao/ap_cliente.dart';
+import 'package:hora_certa/app/aplicacao/ap_servico.dart';
 import 'package:hora_certa/app/dominio/dto/dto_agenda.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:hora_certa/app/dominio/dto/dto_cliente.dart';
+import 'package:hora_certa/app/dominio/dto/dto_servico.dart';
 import 'formulario_cliente.dart';
 import 'formulario_atendente.dart';
 import 'formulario_servico.dart';
@@ -22,12 +29,16 @@ class HomeAgenda extends StatefulWidget {
 class _HomeAgendaState extends State<HomeAgenda> {
   List<dominio.Atendente> atendentes = [];
   List<DTOAgenda> agendas = [];
+  List<DTOCliente> dtoClientes = [];
+  List<DTOServico> dtoServicos = [];
 
   @override
   void initState() {
     super.initState();
     _fetchAtendentes();
     _fetchAgendas();
+    _fetchClientes();
+    _fetchServicos();
   }
 
   void _fetchAtendentes() async {
@@ -55,6 +66,24 @@ class _HomeAgendaState extends State<HomeAgenda> {
     });
   }
 
+  void _fetchClientes() async {
+    final apCliente = APCliente();
+    final fetchedClientes = await apCliente.consultar();
+
+    setState(() {
+      dtoClientes = fetchedClientes;
+    });
+  }
+
+  void _fetchServicos() async {
+    final apServico = APServico();
+    final fetchedServicos = await apServico.consultar();
+
+    setState(() {
+      dtoServicos = fetchedServicos;
+    });
+  }
+
   void _adicionarAgenda(DTOAgenda agenda) {
     setState(() {
       agendas.add(agenda);
@@ -63,6 +92,24 @@ class _HomeAgendaState extends State<HomeAgenda> {
 
   @override
   Widget build(BuildContext context) {
+    final clientes = dtoClientes.map((dto) => Cliente(dao: DAOCliente())
+      ..id = dto.id
+      ..nome = dto.nome
+      ..cpf = dto.cpf
+      ..telefone = dto.telefone
+      ..senha = dto.senha
+      ..telefoneEhWhatsapp = dto.telefoneEhWhatsapp
+      ..estaAtivo = dto.estaAtivo
+      ..observacao = dto.observacao).toList();
+
+    final servicos = dtoServicos.map((dto) => Servico(dao: DAOServico())
+      ..id = dto.id
+      ..nome = dto.nome
+      ..preco = dto.preco
+      ..tempo = dto.tempo
+      ..estaAtivo = dto.estaAtivo
+      ..observacao = dto.observacao).toList();
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Kanban de Atendimentos"),
@@ -257,7 +304,7 @@ class _HomeAgendaState extends State<HomeAgenda> {
         onPressed: () async {
           final result = await Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => FormularioAgenda(clientes: [], servicos: [], atendentes: atendentes)),
+            MaterialPageRoute(builder: (context) => FormularioAgenda(clientes: clientes, servicos: servicos, atendentes: atendentes)),
           );
           if (result != null && result is Map<String, dynamic>) {
             _adicionarAgenda(result['agenda']);

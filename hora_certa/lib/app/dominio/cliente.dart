@@ -143,11 +143,15 @@ class Cliente {
   }
 
   set telefoneEhWhatsapp(bool? telefoneEhWhatsapp) {
-    if (telefoneEhWhatsapp == null)
+    if (telefoneEhWhatsapp == null) {
       throw Exception('Status não pode ser nulo.');
-    if (telefoneEhWhatsapp != true || telefoneEhWhatsapp != false)
-      throw Exception('Erro: "Telefone é WhatsApp?" não pode ser nulo.');
+    }
     _telefoneEhWhatsapp = telefoneEhWhatsapp;
+  }
+
+  set estaAtivo(bool? estaAtivo) {
+    if (estaAtivo == null) throw Exception('Status não pode ser nulo.');
+    _estaAtivo = estaAtivo;
   }
 
   set observacao(String? observacao) {
