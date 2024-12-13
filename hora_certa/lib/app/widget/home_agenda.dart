@@ -155,7 +155,7 @@ class _HomeAgendaState extends State<HomeAgenda> {
                     child: Container(
                       margin: const EdgeInsets.symmetric(horizontal: 8.0),
                       decoration: BoxDecoration(
-                        color: Colors.grey,
+                        color: Colors.blue.shade50,
                         borderRadius: BorderRadius.circular(16.0),
                       ),
                       child: Column(
@@ -165,7 +165,7 @@ class _HomeAgendaState extends State<HomeAgenda> {
                             width: double.infinity,
                             padding: EdgeInsets.all(8.0),
                             decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 0, 118, 214),
+                              color: Colors.blueAccent,
                               borderRadius: BorderRadius.circular(8.0),
                             ),
                             child: Text(

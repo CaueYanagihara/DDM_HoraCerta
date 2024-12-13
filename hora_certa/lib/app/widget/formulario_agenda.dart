@@ -3,6 +3,7 @@ import 'home_agenda.dart';
 import 'package:hora_certa/app/dominio/cliente.dart';
 import 'package:hora_certa/app/dominio/servico.dart';
 import 'package:hora_certa/app/dominio/atendente.dart';
+import 'package:hora_certa/app/dominio/dto/dto_agenda.dart';
 
 class FormularioAgenda extends StatefulWidget {
   final List<Cliente> clientes;
@@ -29,52 +30,10 @@ class _FormularioAgendaState extends State<FormularioAgenda> {
   @override
   void initState() {
     super.initState();
-    _verificarDados();
-  }
-
-  void _verificarDados() {
-    if (widget.clientes.isEmpty || widget.servicos.isEmpty || widget.atendentes.isEmpty) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        _mostrarAlerta('É necessário cadastrar pelo menos um cliente, um serviço e um atendente antes de criar uma agenda.');
-      });
-    }
-  }
-
-  void _mostrarAlerta(String mensagem) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Aviso'),
-          content: Text(mensagem),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the alert dialog
-                Navigator.of(context).pop(); // Close the form
-              },
-              child: Text('Fechar'),
-            ),
-          ],
-        );
-      },
-    );
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.clientes.isEmpty || widget.servicos.isEmpty || widget.atendentes.isEmpty) {
-      return Scaffold(
-        appBar: AppBar(
-          title: Text('Cadastrar Agenda'),
-          backgroundColor: Colors.indigo,
-        ),
-        body: Center(
-          child: Text('É necessário cadastrar pelo menos um cliente, um serviço e um atendente antes de criar uma agenda.'),
-        ),
-      );
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Cadastrar Agenda'),
@@ -247,15 +206,20 @@ class _FormularioAgendaState extends State<FormularioAgenda> {
               ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
-                    final tarefa = Tarefa(
-                      _servico ?? '',
-                      _cliente ?? '',
-                      DateTime(_data!.year, _data!.month, _data!.day, _horaInicio!.hour, _horaInicio!.minute),
-                      DateTime(_data!.year, _data!.month, _data!.day, _horaFim!.hour, _horaFim!.minute),
-                      _preco!,
-                      _observacao,
+                    final agenda = DTOAgenda(
+                      clienteId: widget.clientes.firstWhere((cliente) => cliente.nome == _cliente).id.toString(),
+                      servicoId: widget.servicos.firstWhere((servico) => servico.nome == _servico).id.toString(),
+                      atendenteId: widget.atendentes.firstWhere((atendente) => atendente.nome == _atendente).id.toString(),
+                      atendenteNome: _atendente ?? '',
+                      clienteNome: _cliente ?? '',
+                      servicoNome: _servico ?? '',
+                      dataHoraInicio: DateTime(_data!.year, _data!.month, _data!.day, _horaInicio!.hour, _horaInicio!.minute),
+                      dataHoraFim: DateTime(_data!.year, _data!.month, _data!.day, _horaFim!.hour, _horaFim!.minute),
+                      preco: _preco!,
+                      status: 'P',
+                      observacao: _observacao,
                     );
-                    Navigator.pop(context, {'tarefa': tarefa, 'atendenteNome': _atendente ?? ''});
+                    Navigator.pop(context, {'agenda': agenda});
                   }
                 },
                 child: Text('Salvar'),

@@ -30,17 +30,45 @@ class _FormularioClienteState extends State<FormularioCliente> {
         estaAtivo: true,
       );
 
-      var clienteSalvo = await aplicacao.salvar(novoCliente);
+      try {
+        var clienteSalvo = await aplicacao.salvar(novoCliente);
 
-      if (clienteSalvo != null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Cliente cadastrado com sucesso!')));
-        _limparFormulario();
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Erro ao cadastrar o cliente!')));
+        if (clienteSalvo != null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Cliente cadastrado com sucesso!')));
+          _limparFormulario();
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Erro ao cadastrar o cliente!')));
+        }
+      } catch (e) {
+        if (e.toString().contains('UNIQUE constraint failed: cliente.cpf')) {
+          _mostrarAlerta('CPF já cadastrado. Por favor, insira um CPF diferente.');
+        } else {
+          _mostrarAlerta('Erro ao salvar cliente: ${e.toString()}');
+        }
       }
     }
+  }
+
+  void _mostrarAlerta(String mensagem) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Aviso'),
+          content: Text(mensagem),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Fechar'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _limparFormulario() {
