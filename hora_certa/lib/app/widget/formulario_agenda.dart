@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
 import 'home_agenda.dart';
+import 'package:hora_certa/app/dominio/cliente.dart';
+import 'package:hora_certa/app/dominio/servico.dart';
+import 'package:hora_certa/app/dominio/atendente.dart';
 
 class FormularioAgenda extends StatefulWidget {
+  final List<Cliente> clientes;
+  final List<Servico> servicos;
+  final List<Atendente> atendentes;
+
+  FormularioAgenda({required this.clientes, required this.servicos, required this.atendentes});
+
   @override
   _FormularioAgendaState createState() => _FormularioAgendaState();
 }
@@ -11,15 +20,61 @@ class _FormularioAgendaState extends State<FormularioAgenda> {
   String? _atendente;
   String? _cliente;
   String? _servico;
-  int? _precoTotal;
+  int? _preco;
   DateTime? _data;
   TimeOfDay? _horaInicio;
   TimeOfDay? _horaFim;
-  int? _preco;
   String? _observacao;
 
   @override
+  void initState() {
+    super.initState();
+    _verificarDados();
+  }
+
+  void _verificarDados() {
+    if (widget.clientes.isEmpty || widget.servicos.isEmpty || widget.atendentes.isEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _mostrarAlerta('É necessário cadastrar pelo menos um cliente, um serviço e um atendente antes de criar uma agenda.');
+      });
+    }
+  }
+
+  void _mostrarAlerta(String mensagem) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Aviso'),
+          content: Text(mensagem),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the alert dialog
+                Navigator.of(context).pop(); // Close the form
+              },
+              child: Text('Fechar'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
+    if (widget.clientes.isEmpty || widget.servicos.isEmpty || widget.atendentes.isEmpty) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text('Cadastrar Agenda'),
+          backgroundColor: Colors.indigo,
+        ),
+        body: Center(
+          child: Text('É necessário cadastrar pelo menos um cliente, um serviço e um atendente antes de criar uma agenda.'),
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Cadastrar Agenda'),
@@ -33,10 +88,10 @@ class _FormularioAgendaState extends State<FormularioAgenda> {
             children: [
               DropdownButtonFormField<String>(
                 decoration: InputDecoration(labelText: 'Atendente'),
-                items: ['Atendente 1', 'Atendente 2', 'Atendente 3']
-                    .map((atendente) => DropdownMenuItem(
-                          value: atendente,
-                          child: Text(atendente),
+                items: widget.atendentes
+                    .map((atendente) => DropdownMenuItem<String>(
+                          value: atendente.nome ?? '',
+                          child: Text(atendente.nome ?? ''),
                         ))
                     .toList(),
                 onChanged: (value) {
@@ -53,10 +108,10 @@ class _FormularioAgendaState extends State<FormularioAgenda> {
               ),
               DropdownButtonFormField<String>(
                 decoration: InputDecoration(labelText: 'Cliente'),
-                items: ['Cliente 1', 'Cliente 2', 'Cliente 3']
-                    .map((cliente) => DropdownMenuItem(
-                          value: cliente,
-                          child: Text(cliente),
+                items: widget.clientes
+                    .map((cliente) => DropdownMenuItem<String>(
+                          value: cliente.nome ?? '',
+                          child: Text(cliente.nome ?? ''),
                         ))
                     .toList(),
                 onChanged: (value) {
@@ -73,10 +128,10 @@ class _FormularioAgendaState extends State<FormularioAgenda> {
               ),
               DropdownButtonFormField<String>(
                 decoration: InputDecoration(labelText: 'Serviço'),
-                items: ['Serviço 1', 'Serviço 2', 'Serviço 3']
-                    .map((servico) => DropdownMenuItem(
-                          value: servico,
-                          child: Text(servico),
+                items: widget.servicos
+                    .map((servico) => DropdownMenuItem<String>(
+                          value: servico.nome ?? '',
+                          child: Text(servico.nome ?? ''),
                         ))
                     .toList(),
                 onChanged: (value) {
@@ -96,7 +151,7 @@ class _FormularioAgendaState extends State<FormularioAgenda> {
                 keyboardType: TextInputType.number,
                 onChanged: (value) {
                   setState(() {
-                    _precoTotal = int.tryParse(value);
+                    _preco = int.tryParse(value);
                   });
                 },
                 validator: (value) {
@@ -181,21 +236,6 @@ class _FormularioAgendaState extends State<FormularioAgenda> {
                 ),
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Preço Total'),
-                keyboardType: TextInputType.number,
-                onChanged: (value) {
-                  setState(() {
-                    _preco = int.tryParse(value);
-                  });
-                },
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, insira o preço total';
-                  }
-                  return null;
-                },
-              ),
-              TextFormField(
                 decoration: InputDecoration(labelText: 'Observação'),
                 onChanged: (value) {
                   setState(() {
@@ -208,14 +248,14 @@ class _FormularioAgendaState extends State<FormularioAgenda> {
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     final tarefa = Tarefa(
-                      _servico!,
-                      _cliente!,
+                      _servico ?? '',
+                      _cliente ?? '',
                       DateTime(_data!.year, _data!.month, _data!.day, _horaInicio!.hour, _horaInicio!.minute),
                       DateTime(_data!.year, _data!.month, _data!.day, _horaFim!.hour, _horaFim!.minute),
                       _preco!,
                       _observacao,
                     );
-                    Navigator.pop(context, {'tarefa': tarefa, 'atendenteNome': _atendente});
+                    Navigator.pop(context, {'tarefa': tarefa, 'atendenteNome': _atendente ?? ''});
                   }
                 },
                 child: Text('Salvar'),

@@ -81,6 +81,9 @@ class DAOAgenda implements IDAOAgenda {
           clienteId: linha['clienteId']?.toString() ?? '',
           servicoId: linha['servicoId']?.toString() ?? '',
           atendenteId: linha['atendenteId']?.toString() ?? '',
+          atendenteNome: linha['atendenteNome']?.toString() ?? '',
+          clienteNome: linha['clienteNome']?.toString() ?? '',
+          servicoNome: linha['servicoNome']?.toString() ?? '',
           dataHoraInicio: DateTime.parse(linha['dataHoraInicio'].toString()),
           dataHoraFim: DateTime.parse(linha['dataHoraFim'].toString()),
           preco: int.parse(linha['preco'].toString()),  
@@ -91,8 +94,6 @@ class DAOAgenda implements IDAOAgenda {
     );
     return agendas;
   }
-
-  //clienteId, servicoId, atendenteId, dataHoraInicio, dataHoraFim, status, observacao
 
   @override
   Future<DTOAgenda> consultarPorId(dynamic id) async {
@@ -111,6 +112,9 @@ class DAOAgenda implements IDAOAgenda {
       clienteId: linha['clienteId']?.toString() ?? '',
       servicoId: linha['servicoId']?.toString() ?? '',
       atendenteId: linha['atendenteId']?.toString() ?? '',
+      atendenteNome: linha['atendenteNome']?.toString() ?? '',
+      clienteNome: linha['clienteNome']?.toString() ?? '',
+      servicoNome: linha['servicoNome']?.toString() ?? '',
       dataHoraInicio: DateTime.parse(linha['dataHoraInicio'].toString()),
       dataHoraFim: DateTime.parse(linha['dataHoraFim'].toString()),
       preco: int.parse(linha['preco'].toString()),

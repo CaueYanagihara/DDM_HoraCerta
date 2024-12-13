@@ -12,6 +12,22 @@ class Conexao {
       await deleteDatabase(path);
 
       _db = await openDatabase(path, version: 1, onCreate: (db, version) {
+        db.execute('''
+          CREATE TABLE agenda (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            clienteId TEXT,
+            servicoId TEXT,
+            atendenteId TEXT,
+            atendenteNome TEXT,
+            clienteNome TEXT,
+            servicoNome TEXT,
+            dataHoraInicio TEXT,
+            dataHoraFim TEXT,
+            preco INTEGER,
+            status TEXT,
+            observacao TEXT
+          )
+        ''');
         criarTabelas.forEach(db.execute);
         inserirRegistros.forEach(db.execute);
       });
